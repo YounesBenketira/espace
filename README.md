@@ -1,4 +1,4 @@
-# espace (/ɛspas/) app
+# espace ([ɛs.pɑːs]) app
 View objects in space from the size of an asteroid all the way to the Sun. See asteroids, comets, planets, and their orbits. Scroll around on a map of the solar system, watching the objects move along their orbits in real time or fast forwarding through time watching the objects move. Filter different types of astronomical objects so you can focus on the types of objects that you want. 
 ## Features
 1. Interactive Map of the Solar System
