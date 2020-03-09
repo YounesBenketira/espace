@@ -1,11 +1,11 @@
 package graphical.wireless.espace;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             Fragment selectedFrgmnt = null;
 
-            switch (menuItem.getItemId()){
+            switch (menuItem.getItemId()) {
                 case R.id.nav_home:
                     selectedFrgmnt = new HomeFragment();
                     break;
@@ -39,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFrgmnt = new FavouritesFragment();
                     break;
             }
-
             displayFragment(selectedFrgmnt);
-
             return true;
         }
     };
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         displayFragment(new HomeFragment());
     }
 
-    private void displayFragment(Fragment fragment){
+    private void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 }
