@@ -37,6 +37,8 @@ View objects in space from the size of an asteroid all the way to the Sun. See a
 4. [Wikipedia API](https://en.wikipedia.org/api/rest_v1/)
 ## Libraries
 1. [jPCT-AE](http://www.jpct.net/jpct-ae/index.html)
+2. [Gson](https://github.com/google/gson)
+3. [Volley](https://developer.android.com/training/volley)
 ## Resources
 Planetary data will be stored in the .apk or in a sqlite database, but considering the small data set a database would be unnecessary. A database will be used to cache pulled data from the JPL Small-Body Database as well as persist favourites and saved fictional space objects.
 
