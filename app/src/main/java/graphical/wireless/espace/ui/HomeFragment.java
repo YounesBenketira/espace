@@ -21,19 +21,6 @@ import org.json.JSONObject;
 import graphical.wireless.espace.R;
 import graphical.wireless.espace.components.PictureOfTheDay;
 
-
-/*
-    Your API key for rpnf@hotmail.com is:
-
-    m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4
-    You can start using this key to make web service requests. Simply pass your key in the URL when making a web request. Here's an example:
-
-    https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4
-    For additional support, please contact us. When contacting us, please tell us what API you're accessing and provide the following account details so we can quickly find you:
-
-    Account Email: rpnf@hotmail.com
-    Account ID: ec8b20ce-0c04-4605-a229-7e1498575945
- */
 public class HomeFragment extends Fragment {
     private RequestQueue requestQueue;
     private static final String URL_TODAYS_POTD = "https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4";
