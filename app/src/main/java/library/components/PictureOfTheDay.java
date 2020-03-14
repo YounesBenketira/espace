@@ -1,4 +1,4 @@
-package graphical.wireless.espace.components;
+package library.components;
 
 import com.google.gson.Gson;
 
