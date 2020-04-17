@@ -1,4 +1,4 @@
-package graphical.wireless.espace.ui;
+package graphical.wireless.espace.ui.data;
 
 public class PotdData {
     String date;
