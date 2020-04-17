@@ -16,14 +16,14 @@ import org.json.JSONObject;
 import testing.components.PictureOfTheDay;
 
 public class SpaceController extends Application {
-    private Context context;
+    private Context context = getApplicationContext();
     private RequestQueue requestQueue;
     private static final String URL_TODAYS_POTD = "https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4";
     private static final String TAG_RESPONSE = "JSON";
 
     //@TODO Find a way to get Context from within the testing package
-    public SpaceController(Context context) {
-        this.context = context;
+    public SpaceController() {
+
     }
 
     public void testPOTD() {
