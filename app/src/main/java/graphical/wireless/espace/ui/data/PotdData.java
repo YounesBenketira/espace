@@ -1,6 +1,6 @@
 package graphical.wireless.espace.ui.data;
 
-public class PotdData {
+public class PotdData extends EspaceData {
     String date;
     String imageName;
     String desc;

@@ -1,7 +1,10 @@
 package graphical.wireless.espace;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,10 @@ import graphical.wireless.espace.ui.HomeFragment;
 import graphical.wireless.espace.ui.MapFragment;
 import graphical.wireless.espace.ui.NewsFragment;
 import graphical.wireless.espace.ui.SearchFragment;
+import graphical.wireless.espace.ui.data.EspaceData;
+import graphical.wireless.espace.ui.data.NewsData;
+import graphical.wireless.espace.ui.data.PlanetData;
+import graphical.wireless.espace.ui.data.PotdData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,4 +66,5 @@ public class MainActivity extends AppCompatActivity {
     private void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
+
 }

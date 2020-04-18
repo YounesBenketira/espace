@@ -1,6 +1,6 @@
 package graphical.wireless.espace.ui.data;
 
-public class NewsData {
+public class NewsData extends EspaceData{
     String headLine;
     String author;
     String imageName;

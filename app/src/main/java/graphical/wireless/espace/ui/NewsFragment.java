@@ -25,7 +25,7 @@ public class NewsFragment extends Fragment {
     private String[] myDataset;
 
     public NewsFragment() {
-        myDataset = new String[]{"Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title"};
+        myDataset = new String[]{"Dog found in space", "New Black hole found", "Earth Replica Found", "New Star", "Aliens Found", "Asteroid Going to crash", "Sun Explodes"};
     }
 
     @Override
@@ -76,7 +76,7 @@ public class NewsFragment extends Fragment {
                                                            int viewType) {
             // create a new view
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.layout_planet, parent, false);
+                    .inflate(R.layout.layout_news, parent, false);
 
             MyViewHolder vh = new MyViewHolder(v);
             return vh;
@@ -87,7 +87,7 @@ public class NewsFragment extends Fragment {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            ( (TextView) holder.cardView.findViewById(R.id.potd_title)).setText(mDataset[position]);
+            ( (TextView) holder.cardView.findViewById(R.id.news_title)).setText(mDataset[position]);
         }
 
         // Return the size of your dataset (invoked by the layout manager)

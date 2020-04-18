@@ -25,7 +25,7 @@ public class MapFragment extends Fragment {
     private String[] myDataset;
 
     public MapFragment() {
-        myDataset = new String[]{"Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title"};
+        myDataset = new String[]{"Jupiter", "Neptune", "Earth", "Sun", "Saturn","The Milky Way"};
     }
 
     @Override
@@ -87,7 +87,7 @@ public class MapFragment extends Fragment {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            ( (TextView) holder.cardView.findViewById(R.id.potd_title)).setText(mDataset[position]);
+            ( (TextView) holder.cardView.findViewById(R.id.planet_name)).setText(mDataset[position]);
         }
 
         // Return the size of your dataset (invoked by the layout manager)

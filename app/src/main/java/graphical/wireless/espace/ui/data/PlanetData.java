@@ -1,14 +1,14 @@
 package graphical.wireless.espace.ui.data;
 
-public class PlanetData {
+public class PlanetData extends EspaceData{
     String name;
     String desc;
-    String image;
+    String imageName;
 
     public PlanetData(String name, String desc, String image) {
         this.name = name;
         this.desc = desc;
-        this.image = image;
+        this.imageName = image;
     }
 
     public String getName() {
@@ -20,7 +20,7 @@ public class PlanetData {
     }
 
     public String getImage() {
-        return image;
+        return imageName;
     }
 
     public void setName(String name) {
@@ -32,6 +32,6 @@ public class PlanetData {
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.imageName = image;
     }
 }
