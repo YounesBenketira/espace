@@ -1,10 +1,12 @@
 package graphical.wireless.espace.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -12,7 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import graphical.wireless.espace.DetailsActivity;
+import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
+import graphical.wireless.espace.ui.data.NewsData;
+import graphical.wireless.espace.ui.data.PlanetData;
 
 
 /**
@@ -22,10 +28,8 @@ public class NewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private String[] myDataset;
 
     public NewsFragment() {
-        myDataset = new String[]{"Dog found in space", "New Black hole found", "Earth Replica Found", "New Star", "Aliens Found", "Asteroid Going to crash", "Sun Explodes"};
     }
 
     @Override
@@ -44,14 +48,14 @@ public class NewsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new NewsAdapter(myDataset);
+        mAdapter = new NewsAdapter(((MainActivity)getActivity()).newsDataset);
         recyclerView.setAdapter(mAdapter);
 
         return temp;
     }
 
     class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
-        private String[] mDataset;
+        private NewsData[] data;
 
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
@@ -66,8 +70,8 @@ public class NewsFragment extends Fragment {
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public NewsAdapter(String[] myDataset) {
-            mDataset = myDataset;
+        public NewsAdapter(NewsData[] myDataset) {
+            data = myDataset;
         }
 
         // Create new views (invoked by the layout manager)
@@ -87,13 +91,31 @@ public class NewsFragment extends Fragment {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            ( (TextView) holder.cardView.findViewById(R.id.news_title)).setText(mDataset[position]);
+            ViewGroup vg = holder.cardView;
+            final int pos = position;
+
+            vg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+
+                    intent.putExtra("newsData", data[pos]);
+                    startActivity(intent);
+                }
+            });
+
+            NewsData article = data[pos];
+
+            ((TextView)vg.findViewById(R.id.news_title)).setText(article.getMainText());
+
+            ImageView imageView = vg.findViewById(R.id.news_image);
+            imageView.setImageResource(article.getImageId());
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return mDataset.length;
+            return data.length;
         }
     }
 }

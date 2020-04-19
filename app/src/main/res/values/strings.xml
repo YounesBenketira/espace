@@ -26,4 +26,32 @@
         <item>It was an astronomical triple play. Setting on the left, just after sunset near the end of last month, was our Moon -- showing a bright crescent phase.  Setting on the right was Venus, the brightest planet in the evening sky last month -- and this month, too.  With a small telescope, you could tell that Venus\' phase was half, meaning that only half of the planet, as visible from Earth, was exposed to direct sunlight and brightly lit. High above and much further in the distance was the Pleiades star cluster.  Although the Moon and Venus move with respect to the background stars, the Pleiades do not -- because they are background stars. In the beginning of this month, Venus appeared to move right in front of the Pleiades, a rare event that happens only once every eight years.  The featured image captured this cosmic triangle with a series of exposures taken from the same camera over 70 minutes near Avonlea, Saskatchewan, Canada. The positions of the celestial objects was predicted. The only thing unpredicted was the existence of the foreground tree -- and the astrophotographer is still unsure what type of tree that is.</item>
         <item>NGC 253 is one of the brightest spiral galaxies visible, but also one of the dustiest.  Dubbed the Silver Coin for its appearance in smalltelescopes, it is more formally known as the Sculptor Galaxy for its location within the boundaries of the southern constellation Sculptor.  Discovered in 1783 by mathematician and astronomer Caroline Herschel, the dusty island universe lies a mere 10 million light-years away. About 70 thousand light-years across, NGC 253, pictured, is the largest member of the Sculptor Group of Galaxies, the nearest to our own Local Group of galaxies.  In addition to its spiral dust lanes, tendrils of dust seem to be rising from a galactic disk laced with young star clusters and star forming regions in this sharp color image. The high dust content accompanies frantic star formation, earning NGC 253 the designation of a starburst galaxy. NGC 253 is also known to be a strong source of high-energy x-rays and gamma rays, likely due to massive black holes near the galaxy\'s center. Take a trip through extragalactic space in this short video flyby of NGC 253.   Astrophysicists: Browse 2,100+ codes in the Astrophysics Source Code Library</item>
     </string-array>
+    <string-array name="planet_titles">
+        <item>Jupiter</item>
+        <item>Neptune</item>
+        <item>Mars</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+    </string-array>
+    <string-array name="planet_desc">
+        <item>Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined</item>
+        <item>Neptune is the eighth and farthest known planet from the Sun in the Solar System. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet. Neptune is 17 times the mass of Earth, slightly more massive than its near-twin Uranus.</item>
+        <item>Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System after Mercury. In English, Mars carries the name of the Roman god of war and is often referred to as the \'Red Planet\'.</item>
+        <item>Saturn is the sixth planet from the Sun and the second-largest in the Solar System, after Jupiter. It is a gas giant with an average radius of about nine times that of Earth. It only has one-eighth the average density of Earth; however, with its larger volume, Saturn is over 95 times more massive</item>
+        <item>Uranus is the seventh planet from the Sun. It has the third-largest planetary radius and fourth-largest planetary mass in the Solar System. Uranus is similar in composition to Neptune, and both have bulk chemical compositions which differ from that of the larger gas giants Jupiter and Saturn. For this reason, scientists often classify Uranus and Neptune as \"ice giants\" to distinguish them from the gas giants. Uranus\' atmosphere is similar to Jupiter\'s and Saturn\'s in its primary composition of hydrogen and helium, but it contains more \"ices\" such as water, ammonia, and methane, along with traces of other hydrocarbons. It has the coldest planetary atmosphere in the Solar System, with a minimum temperature of 49 K (−224 °C; −371 °F), and has a complex, layered cloud structure with water thought to make up the lowest clouds and methane the uppermost layer of clouds. The interior of Uranus is mainly composed of ices and rock.</item>
+    </string-array>
+    <string-array name="news_headlines">
+        <item>Dog found on Mars</item>
+        <item>Elon musk invades Neptune</item>
+        <item>Spaceship found on earth orbit</item>
+        <item>Pluto is now a planet again</item>
+        <item>Dog returned to earth</item>
+    </string-array>
+    <string-array name="news_descriptions">
+        <item>Dog was found on mars after owner lost it 10 years ago. It built its home in the dirt.</item>
+        <item>Elon Musk sets his eyes to neptune after conquering Mars and making it his personal planet.</item>
+        <item>Spaceship that belongs to aliens that live very far are within earths orbit now sadly.</item>
+        <item>Pluto is now a planet again</item>
+        <item>Dog that was found on mars now returned to earth and the owner is very happy now.</item>
+    </string-array>
 </resources>

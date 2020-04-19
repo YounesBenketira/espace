@@ -1,6 +1,8 @@
 package graphical.wireless.espace.ui.data;
 
-public class NewsData extends EspaceData {
+import android.os.Parcelable;
+
+public class NewsData extends EspaceData implements Parcelable {
 
     // Fields
     private String desc;
@@ -21,6 +23,10 @@ public class NewsData extends EspaceData {
         return this.getAuxText();
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
     // Mutators
     public void setHeadline(String headline) {
         this.setMainText(headline);
@@ -28,5 +34,9 @@ public class NewsData extends EspaceData {
 
     public void setAuthor(String author) {
         this.setAuxText(author);
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

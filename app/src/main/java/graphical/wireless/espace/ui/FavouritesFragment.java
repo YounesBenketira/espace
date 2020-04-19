@@ -25,7 +25,7 @@ public class FavouritesFragment extends Fragment {
     private String[] myDataset;
 
     public FavouritesFragment() {
-        myDataset = new String[]{"Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title", "Picture Title"};
+        myDataset = new String[]{"Favourite Item", "Favourite Item", "Favourite Item", "Favourite Item", "Favourite Item"};
     }
 
     @Override

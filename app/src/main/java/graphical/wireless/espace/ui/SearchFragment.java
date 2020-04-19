@@ -25,7 +25,7 @@ public class SearchFragment extends Fragment {
     private String[] myDataset;
 
     public SearchFragment() {
-        myDataset = new String[]{"Dog"};
+        myDataset = new String[]{"Search Item", "Search Item", "Search Item", "Search Item", "Search Item"};
     }
 
     @Override

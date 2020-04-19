@@ -27,6 +27,8 @@ import graphical.wireless.espace.ui.data.PotdData;
 public class MainActivity extends AppCompatActivity {
 
     public PotdData[] potdDataset;
+    public PlanetData[] planetDataset;
+    public NewsData[] newsDataset;
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -71,12 +73,33 @@ public class MainActivity extends AppCompatActivity {
         String[] titles = res.getStringArray(R.array.ptod_titles);
         String[] descs = res.getStringArray(R.array.ptod_desc);
         String[] dates = res.getStringArray(R.array.ptod_dates);
-        int[] ids = new int[] {R.drawable.potd_0, R.drawable.potd_1, R.drawable.potd_2, R.drawable.potd_3, R.drawable.potd_4};
+        int[] potdImages = new int[] {R.drawable.potd_0, R.drawable.potd_1, R.drawable.potd_2, R.drawable.potd_3, R.drawable.potd_4};
 
         potdDataset = new PotdData[titles.length];
         for(int i = 0; i < potdDataset.length; i++) {
-            potdDataset[i] = new PotdData(titles[i], descs[i], dates[i], false, ids[i]);
+            potdDataset[i] = new PotdData(titles[i], descs[i], dates[i], false, potdImages[i]);
         }
+
+        // Planet Data
+        String[] planetNames = res.getStringArray(R.array.planet_titles);
+        String[] planetDesc = res.getStringArray(R.array.planet_desc);
+        int[] planetImages = new int[] {R.drawable.jupiter, R.drawable.neptune, R.drawable.mars, R.drawable.saturn, R.drawable.uranus};
+
+        planetDataset = new PlanetData[planetNames.length];
+        for(int i = 0; i < planetDataset.length; i++) {
+            planetDataset[i] = new PlanetData(planetNames[i], planetDesc[i], false, planetImages[i]);
+        }
+
+        // News Articles
+        String[] newsHeadlines = res.getStringArray(R.array.news_headlines);
+        String[] newsDesc = res.getStringArray(R.array.news_descriptions);
+        int[] newsImages = new int[] {R.drawable.news0, R.drawable.news1, R.drawable.news2, R.drawable.news3, R.drawable.news4};
+
+        newsDataset = new NewsData[newsHeadlines.length];
+        for(int i = 0; i < newsDataset.length; i++) {
+            newsDataset[i] = new NewsData(newsHeadlines[i], newsDesc[i], false, newsImages[i], newsDesc[i]);
+        }
+
     }
 
     private void displayFragment(Fragment fragment) {

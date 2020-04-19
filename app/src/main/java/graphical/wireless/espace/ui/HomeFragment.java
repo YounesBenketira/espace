@@ -96,8 +96,6 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), DetailsActivity.class);
 
-                    Log.i("DOG", "showDetails: " + data[pos].getName());
-
                     intent.putExtra("potdData", data[pos]);
                     startActivity(intent);
                 }
