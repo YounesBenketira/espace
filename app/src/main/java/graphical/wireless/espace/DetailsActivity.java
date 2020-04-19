@@ -3,8 +3,13 @@ package graphical.wireless.espace;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import graphical.wireless.espace.ui.data.EspaceData;
+import graphical.wireless.espace.ui.data.PotdData;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -14,13 +19,11 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
-        String desc = intent.getStringExtra("desc");
-        String date = intent.getStringExtra("date");
+        EspaceData parcel = intent.getParcelableExtra("potdData");
 
-        ((TextView) findViewById(R.id.details_title)).setText(title);
-        ((TextView) findViewById(R.id.details_description)).setText(desc);
-        ((TextView) findViewById(R.id.details_date)).setText(date);
-
+        ((TextView) findViewById(R.id.details_title)).setText(parcel.getMainText());
+        ((TextView) findViewById(R.id.details_description)).setText(parcel.getAuxText());
+        ((TextView) findViewById(R.id.details_date)).setText(parcel.getDateText());
+        ((ImageView)findViewById(R.id.details_image)).setImageResource(parcel.getImageId());
     }
 }

@@ -1,6 +1,7 @@
 package graphical.wireless.espace;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -24,6 +25,8 @@ import graphical.wireless.espace.ui.data.PlanetData;
 import graphical.wireless.espace.ui.data.PotdData;
 
 public class MainActivity extends AppCompatActivity {
+
+    public PotdData[] potdDataset;
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -61,6 +64,19 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(listener);
 
         displayFragment(new HomeFragment());
+
+        Resources res = getResources();
+
+        // Create dummy data
+        String[] titles = res.getStringArray(R.array.ptod_titles);
+        String[] descs = res.getStringArray(R.array.ptod_desc);
+        String[] dates = res.getStringArray(R.array.ptod_dates);
+        int[] ids = new int[] {R.drawable.potd_0, R.drawable.potd_1, R.drawable.potd_2, R.drawable.potd_3, R.drawable.potd_4};
+
+        potdDataset = new PotdData[titles.length];
+        for(int i = 0; i < potdDataset.length; i++) {
+            potdDataset[i] = new PotdData(titles[i], descs[i], dates[i], false, ids[i]);
+        }
     }
 
     private void displayFragment(Fragment fragment) {
