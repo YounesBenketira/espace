@@ -1,37 +1,29 @@
 package graphical.wireless.espace.ui.data;
 
+import android.graphics.drawable.Drawable;
+
 public class PotdData extends EspaceData {
-    String date;
-    String imageName;
-    String desc;
 
-    public PotdData(String date, String imageName, String desc) {
-        this.date = date;
-        this.imageName = imageName;
-        this.desc = desc;
+    // Constructors
+    public PotdData(String name, String desc, String date, boolean isFavourite, int image) {
+        super(name, desc, date, isFavourite, image);
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public String getImageName() {
-        return imageName;
+    // Accessors
+    public String getName() {
+        return this.getMainText();
     }
 
     public String getDesc() {
-        return desc;
+        return this.getAuxText();
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    // Mutators
+    public void setName(String name) {
+        this.setMainText(name);
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.setAuxText(desc);
     }
 }

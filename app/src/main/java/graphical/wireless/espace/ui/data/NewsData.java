@@ -1,47 +1,32 @@
 package graphical.wireless.espace.ui.data;
 
-public class NewsData extends EspaceData{
-    String headLine;
-    String author;
-    String imageName;
-    String desc;
+public class NewsData extends EspaceData {
 
-    public NewsData(String headline, String author, String imageName, String desc) {
-        this.headLine = headline;
-        this.author = author;
-        this.imageName = imageName;
+    // Fields
+    private String desc;
+
+    // Constructors
+    public NewsData(String headline, String author, boolean isFavourite, int image, String desc) {
+        super(headline, author, "", isFavourite, image);
+
         this.desc = desc;
+    }
+
+    // Accessors
+    public String getHeadline() {
+        return this.getMainText();
     }
 
     public String getAuthor() {
-        return author;
+        return this.getAuxText();
     }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public String getHeadLine() {
-        return headLine;
-    }
-
-    public String getImageName() {
-        return imageName;
+    // Mutators
+    public void setHeadline(String headline) {
+        this.setMainText(headline);
     }
 
     public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public void setHeadLine(String headLine) {
-        this.headLine = headLine;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+        this.setAuxText(author);
     }
 }

@@ -1,37 +1,29 @@
 package graphical.wireless.espace.ui.data;
 
-public class PlanetData extends EspaceData{
-    String name;
-    String desc;
-    String imageName;
+import android.graphics.drawable.Drawable;
 
-    public PlanetData(String name, String desc, String image) {
-        this.name = name;
-        this.desc = desc;
-        this.imageName = image;
+public class PlanetData extends EspaceData {
+
+    // Constructors
+    public PlanetData(String name, String desc, boolean isFavourite, int image) {
+        super(name, desc, "", isFavourite, image);
     }
 
+    // Accessors
     public String getName() {
-        return name;
+        return this.getMainText();
     }
 
     public String getDesc() {
-        return desc;
+        return this.getAuxText();
     }
 
-    public String getImage() {
-        return imageName;
-    }
-
+    // Mutators
     public void setName(String name) {
-        this.name = name;
+        this.setMainText(name);
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public void setImage(String image) {
-        this.imageName = image;
+        this.setAuxText(desc);
     }
 }
