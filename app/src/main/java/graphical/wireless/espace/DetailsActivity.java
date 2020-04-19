@@ -60,6 +60,15 @@ public class DetailsActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.details_author)).setText("");
                 ((TextView) findViewById(R.id.details_date)).setText("");
                 break;
+            case "dummyData":
+                String title = intent.getDataString();
+
+                ((TextView) findViewById(R.id.details_title)).setText("Title");
+                ((ImageView) findViewById(R.id.details_image)).setImageResource(R.drawable.potd_0);
+                ((TextView) findViewById(R.id.details_author)).setText("");
+                ((TextView) findViewById(R.id.details_date)).setText("");
+                break;
+
         }
 
 

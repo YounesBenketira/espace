@@ -1,6 +1,7 @@
 package graphical.wireless.espace.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.R;
 
 
@@ -88,6 +90,20 @@ public class FavouritesFragment extends Fragment {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             ( (TextView) holder.cardView.findViewById(R.id.potd_title)).setText(mDataset[position]);
+
+
+            ViewGroup vg = holder.cardView;
+            final int pos = position;
+
+            vg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+
+                    intent.putExtra("dummyData", myDataset[pos]);
+                    startActivity(intent);
+                }
+            });
         }
 
         // Return the size of your dataset (invoked by the layout manager)
