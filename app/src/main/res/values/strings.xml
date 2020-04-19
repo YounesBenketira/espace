@@ -1,9 +1,29 @@
 <resources>
     <string name="app_name">Espace</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="search_type">
         <item>PotD</item>
         <item>News</item>
         <item>Objects</item>
+    </string-array>
+    <string-array name="ptod_titles">
+        <item>Just Another Day on Aerosol Earth</item>
+        <item>The Windmill and the Star Trails</item>
+        <item>Comet ATLAS Breaks Up</item>
+        <item>A Cosmic Triangle</item>
+        <item>NGC 253: The Silver Coin Galaxy</item>
+    </string-array>
+    <string-array name="ptod_dates">
+        <item>2020-04-18</item>
+        <item>2020-04-17</item>
+        <item>2020-04-16</item>
+        <item>2020-04-15</item>
+        <item>2020-04-14</item>
+    </string-array>
+    <string-array name="ptod_desc">
+        <item>It was just another day on aerosol Earth. For August 23, 2018, the identification and distribution of aerosols in the Earth\'s atmosphere is shown in this dramatic, planet-wide digital visualization. Produced in real time, the Goddard Earth Observing System Forward Processing (GEOS FP) model relies on a combination of Earth-observing satellite and ground-based data to calculate the presence of types of aerosols, tiny solid particles and liquid droplets, as they circulate above the entire planet. This August 23rd model shows black carbon particles in red from combustion processes, like smoke from the fires in the United States and Canada, spreading across large stretches of North America and Africa. Sea salt aerosols are in blue, swirling above threatening typhoons near South Korea and Japan, and the hurricane looming near Hawaii. Dust shown in purple hues is blowing over African and Asian deserts. The location of cities and towns can be found from the concentrations of lights based on satellite image data of the Earth at night.   Celebrate: Earth Day at Home</item>
+        <item>Stars can\'t turn these old wooden arms, but it does look like they might in this scene from a rotating planet. The well-composed night skyscape was recorded from Garafia, a municipality on the island of La Palma, Canary Islands, planet Earth. The center of the once working windmill, retired since 1953, is lined-up with the north celestial pole, the planet\'s rotation axis projected on to the northern sky. From a camera fixed to a tripod, the star trails are a reflection of the planet\'s rotation traced in a digital composite of 39 sequential exposures each 25 seconds long. Brought out by highlighting the final exposure in the sequence, the stars themselves appear at the ends of their short concentric arcs. A faint band of winter\'s Milky Way and even a diffuse glow from our neighboring Andromeda Galaxy also shine in the night.</item>
+        <item>Cruising through the inner solar system, Comet ATLAS (C/2019 Y4) has apparently fragmented. Multiple separate condensations within its diffuse coma are visible in this telescopic close-up from April 12, composed of frames tracking the comet\'s motion against trailing background stars. Discovered at the end of December 2019, this comet ATLAS showed a remarkably rapid increase in brightness in late March. Northern hemisphere comet watchers held out hope that it would become a bright naked-eye comet as it came closer to Earth in late April and May. But fragmenting ATLAS is slowly fading in northern skies. The breakup of comets is not uncommon though. This comet ATLAS is in an orbit similar to the Great Comet of 1844 (C/1844 Y1) and both may be fragments of a single larger comet.</item>
+        <item>It was an astronomical triple play. Setting on the left, just after sunset near the end of last month, was our Moon -- showing a bright crescent phase.  Setting on the right was Venus, the brightest planet in the evening sky last month -- and this month, too.  With a small telescope, you could tell that Venus\' phase was half, meaning that only half of the planet, as visible from Earth, was exposed to direct sunlight and brightly lit. High above and much further in the distance was the Pleiades star cluster.  Although the Moon and Venus move with respect to the background stars, the Pleiades do not -- because they are background stars. In the beginning of this month, Venus appeared to move right in front of the Pleiades, a rare event that happens only once every eight years.  The featured image captured this cosmic triangle with a series of exposures taken from the same camera over 70 minutes near Avonlea, Saskatchewan, Canada. The positions of the celestial objects was predicted. The only thing unpredicted was the existence of the foreground tree -- and the astrophotographer is still unsure what type of tree that is.</item>
+        <item>NGC 253 is one of the brightest spiral galaxies visible, but also one of the dustiest.  Dubbed the Silver Coin for its appearance in smalltelescopes, it is more formally known as the Sculptor Galaxy for its location within the boundaries of the southern constellation Sculptor.  Discovered in 1783 by mathematician and astronomer Caroline Herschel, the dusty island universe lies a mere 10 million light-years away. About 70 thousand light-years across, NGC 253, pictured, is the largest member of the Sculptor Group of Galaxies, the nearest to our own Local Group of galaxies.  In addition to its spiral dust lanes, tendrils of dust seem to be rising from a galactic disk laced with young star clusters and star forming regions in this sharp color image. The high dust content accompanies frantic star formation, earning NGC 253 the designation of a starburst galaxy. NGC 253 is also known to be a strong source of high-energy x-rays and gamma rays, likely due to massive black holes near the galaxy\'s center. Take a trip through extragalactic space in this short video flyby of NGC 253.   Astrophysicists: Browse 2,100+ codes in the Astrophysics Source Code Library</item>
     </string-array>
 </resources>
