@@ -18,6 +18,7 @@
             android:id="@+id/news_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_home_black_24dp" />
 
         <TextView
@@ -30,7 +31,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:singleLine="true"
-            android:text="Title"
+            android:text=""
             android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"/>
@@ -44,7 +45,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:text="Date"
+            android:text=""
             android:textSize="20sp"
             android:textStyle="normal"
             android:textColor="@android:color/black"/>
