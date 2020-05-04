@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.squareup.picasso.Picasso;
+
 import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
@@ -82,6 +84,32 @@ public class HomeFragment extends Fragment {
 
             return new MyViewHolder(v);
         }
+        // Replace the contents of a view (invoked by the layout manager)
+//        @Override
+//        public void onBindViewHolder(MyViewHolder holder, int position) {
+//            // - get element from your dataset at this position
+//            // - replace the contents of the view with that element
+//            ViewGroup vg = holder.cardView;
+//            final int pos = position;
+//
+////            vg.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+////                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+////
+////                    intent.putExtra("potdData", data[pos]);
+////                    startActivity(intent);
+////                }
+////            });
+//
+//            PotdData temp = data[pos];
+//
+//            ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getMainText());
+//            ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
+//
+//            ImageView imageView = vg.findViewById(R.id.potd_image);
+//            Picasso.get().load(temp.getHdurl()).into(imageView);
+//        }
 
         // Replace the contents of a view (invoked by the layout manager)
         @Override
@@ -103,7 +131,7 @@ public class HomeFragment extends Fragment {
 
             PotdData potd = data[pos];
 
-            ((TextView)vg.findViewById(R.id.potd_title)).setText(potd.getName());
+            ((TextView)vg.findViewById(R.id.potd_title)).setText(potd.getMainText());
             ((TextView)vg.findViewById(R.id.potd_date)).setText(potd.getDateText());
 
             ImageView imageView = vg.findViewById(R.id.potd_image);

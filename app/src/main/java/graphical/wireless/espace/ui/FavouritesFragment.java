@@ -91,7 +91,6 @@ public class FavouritesFragment extends Fragment {
             // - replace the contents of the view with that element
             ( (TextView) holder.cardView.findViewById(R.id.potd_title)).setText(mDataset[position]);
 
-
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
