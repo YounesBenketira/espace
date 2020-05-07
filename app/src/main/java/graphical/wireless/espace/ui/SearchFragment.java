@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
@@ -65,6 +66,7 @@ public class SearchFragment extends Fragment {
         mAdapter = new SearchAdapter(dataSet);
         recyclerView.setAdapter(mAdapter);
 
+
         // Search bar
         SearchView searchView = temp.findViewById(R.id.txtbox_search);
         final Spinner spinner = temp.findViewById(R.id.filter_search);
@@ -80,6 +82,7 @@ public class SearchFragment extends Fragment {
                         dataSet.addAll(((MainActivity) getActivity()).newsDataset);
                         dataSet.addAll(((MainActivity) getActivity()).potdDataset);
                         dataSet.addAll(((MainActivity) getActivity()).planetDataset);
+                        Collections.shuffle(dataSet);
                         mAdapter.notifyDataSetChanged();
                         break;
                     case "PotD":
@@ -154,8 +157,6 @@ public class SearchFragment extends Fragment {
             final int pos = position;
 
             EspaceData temp = mDataset.get(position);
-
-            Log.i("TEST", "onBindViewHolder: " + mDataset.size());
 
             ((TextView) vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
             ((TextView) vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
