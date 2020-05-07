@@ -17,11 +17,11 @@
             android:id="@+id/potd_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/potd_0" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/potd_title"
+            style="@style/TextStroke"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/potd_image"
@@ -36,6 +36,7 @@
 
         <TextView
             android:id="@+id/potd_date"
+            style="@style/TextStroke"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/potd_image"

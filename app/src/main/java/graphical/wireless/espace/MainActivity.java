@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import graphical.wireless.espace.ui.FavouritesFragment;
 import graphical.wireless.espace.ui.HomeFragment;
@@ -36,11 +37,9 @@ import graphical.wireless.espace.ui.MapFragment;
 import graphical.wireless.espace.ui.NewsFragment;
 import graphical.wireless.espace.ui.SearchFragment;
 import graphical.wireless.espace.ui.WelcomeFragment;
-import graphical.wireless.espace.ui.data.EspaceData;
 import graphical.wireless.espace.ui.data.NewsData;
 import graphical.wireless.espace.ui.data.PlanetData;
 import graphical.wireless.espace.ui.data.PotdData;
-import testing.components.PictureOfTheDay;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,15 +47,10 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<PlanetData> planetDataset = new ArrayList<>();
     public ArrayList<NewsData> newsDataset = new ArrayList<>();
 
-    public HomeFragment homeFragment = new HomeFragment();
-    public SearchFragment searchFragment = new SearchFragment();
-    public MapFragment mapFragment = new MapFragment();
-    public NewsFragment newsFragment = new NewsFragment();
-    public FavouritesFragment favouritesFragment = new FavouritesFragment();
-
     private RequestQueue requestQueue;
 
-    private static final String URL_TODAYS_POTD = "https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4&date=2019-04-25";
+    private static String URL_TODAYS_POTD = "https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4";
+    private static String URL_PLANETS = "https://thawing-savannah-59760.herokuapp.com/api/v1/planet/getAllPlanets";
     private static final String URL_NEWS = "https://newsapi.org/v2/everything?language=en&q=astronomy&from=2020-04-07&sortBy=publishedAt&apiKey=53c9fbcec73142c984a917008a6bcaf1";
     private static final String TAG_RESPONSE = "JSON";
 
@@ -67,19 +61,19 @@ public class MainActivity extends AppCompatActivity {
 
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    selectedFrgmnt = homeFragment;
+                    selectedFrgmnt = new HomeFragment();
                     break;
                 case R.id.nav_search:
-                    selectedFrgmnt = searchFragment;
+                    selectedFrgmnt = new SearchFragment();
                     break;
                 case R.id.nav_map:
-                    selectedFrgmnt = mapFragment;
+                    selectedFrgmnt = new MapFragment();
                     break;
                 case R.id.nav_news:
-                    selectedFrgmnt = newsFragment;
+                    selectedFrgmnt = new NewsFragment();
                     break;
                 case R.id.nav_favourites:
-                    selectedFrgmnt = favouritesFragment;
+                    selectedFrgmnt = new FavouritesFragment();
                     break;
             }
             displayFragment(selectedFrgmnt);
@@ -89,53 +83,58 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Load DataSets
         loadPotdData();
         loadNewsData();
+        loadPlanetData();
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNav = findViewById(R.id.appbar_bottom);
         bottomNav.setOnNavigationItemSelectedListener(listener);
+
         displayFragment(new WelcomeFragment());
 
+    }
+
+    private void loadPlanetData() {
         Resources res = getResources();
 
-        // Planet Data
-//        String[] planetNames = res.getStringArray(R.array.planet_titles);
-//        String[] planetDesc = res.getStringArray(R.array.planet_desc);
-//        int[] planetImages = new int[]{R.drawable.jupiter, R.drawable.neptune, R.drawable.mars, R.drawable.saturn, R.drawable.uranus};
-//
-//        planetDataset = new PlanetData[planetNames.length];
-//        for (int i = 0; i < planetDataset.length; i++) {
-//            planetDataset[i] = new PlanetData(planetNames[i], planetDesc[i], false, planetImages[i]);
-//        }
+        String[] planetNames = res.getStringArray(R.array.planet_titles);
+        String[] planetDesc = res.getStringArray(R.array.planet_desc);
+        int[] planetImages = new int[]{R.drawable.jupiter, R.drawable.neptune, R.drawable.mars, R.drawable.saturn, R.drawable.uranus};
 
-        // News Articles
-//        String[] newsHeadlines = res.getStringArray(R.array.news_headlines);
-//        String[] newsDesc = res.getStringArray(R.array.news_descriptions);
-//        int[] newsImages = new int[]{R.drawable.news0, R.drawable.news1, R.drawable.news2, R.drawable.news3, R.drawable.news4};
-//
-//        newsDataset = new NewsData[newsHeadlines.length];
-//        for (int i = 0; i < newsDataset.length; i++) {
-//            newsDataset[i] = new NewsData(newsHeadlines[i], newsDesc[i], false, newsImages[i], newsDesc[i]);
-//        }
-
-
+        for (int i = 0; i < planetNames.length; i++) {
+            PlanetData temp = new PlanetData(planetNames[i], planetDesc[i], false, planetImages[i]);
+            planetDataset.add(temp);
+        }
     }
 
     private void loadPotdData() {
         requestQueue = Volley.newRequestQueue(this);
+        URL_TODAYS_POTD += "&start_date=2020-04-25";
         // Get Today's POTD
-        JsonObjectRequest potdRequest = new JsonObjectRequest(
+        JsonArrayRequest potdRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 URL_TODAYS_POTD,
                 null,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        PotdData temp = PotdData.fromJson(response.toString());
-                        potdDataset.add(temp);
+                    public void onResponse(JSONArray response) {
+                        for (int i = 0; i < response.length(); i++) {
+                            ;
+                            PotdData temp = null;
+                            try {
+                                temp = PotdData.fromJson(response.get(i).toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            potdDataset.add(temp);
+                        }
+                        Collections.reverse(potdDataset);
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -180,30 +179,7 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(newsRequest);
     }
 
-    private void test() {
-        String test = "https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4?date=20190425";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                test,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.i(TAG_RESPONSE, "onResponse: " + response.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Log.i(TAG_RESPONSE, error.toString());
-                    }
-                });
-        requestQueue.add(jsonObjectRequest);
-    }
-
-    private void displayFragment(Fragment fragment) {
+    public void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 

@@ -1,8 +1,8 @@
 package graphical.wireless.espace.ui;
 
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +18,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
 import graphical.wireless.espace.ui.data.NewsData;
-import graphical.wireless.espace.ui.data.PlanetData;
 
 
 /**
@@ -52,7 +50,7 @@ public class NewsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new NewsAdapter(((MainActivity)getActivity()).newsDataset);
+        mAdapter = new NewsAdapter(((MainActivity) getActivity()).newsDataset);
         recyclerView.setAdapter(mAdapter);
 
         return temp;
@@ -67,6 +65,7 @@ public class NewsFragment extends Fragment {
         public class MyViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
             public CardView cardView;
+
             public MyViewHolder(CardView v) {
                 super(v);
                 cardView = v;
@@ -98,22 +97,33 @@ public class NewsFragment extends Fragment {
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
-//            vg.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-//
-//                    intent.putExtra("newsData", data[pos]);
-//                    startActivity(intent);
-//                }
-//            });
+            vg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DetailsFragment detailsFragment = new DetailsFragment(data.get(pos));
+                    ((MainActivity) getActivity()).displayFragment(detailsFragment);
+                }
+            });
 
             NewsData article = data.get(pos);
 
-            ((TextView)vg.findViewById(R.id.news_title)).setText(article.getTitle());
+            ((TextView) vg.findViewById(R.id.news_title)).setText(article.getTitle());
 
             ImageView imageView = vg.findViewById(R.id.news_image);
-            Picasso.get().load(article.getUrlToImage()).into(imageView);
+
+            Log.i("TEST", "onBindViewHolder: " + article.getUrlToImage());
+
+
+            if (article.getUrlToImage() == null || article.getUrlToImage().charAt(4) != 's')
+                imageView.setImageResource(R.drawable.noimage);
+            else {
+//                if (article.getUrlToImage().charAt(4) != 's')
+//                    imageView.setImageResource(R.drawable.noimage);
+//                else
+                    Picasso.get().load(article.getUrlToImage()).into(imageView);
+            }
+
+
         }
 
         // Return the size of your dataset (invoked by the layout manager)

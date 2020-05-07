@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import graphical.wireless.espace.DetailsActivity;
+import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
 
 
@@ -97,10 +97,9 @@ public class FavouritesFragment extends Fragment {
             vg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                    DetailsFragment detailsFragment = new DetailsFragment(mDataset[pos]);
 
-                    intent.putExtra("dummyData", myDataset[pos]);
-                    startActivity(intent);
+                    ((MainActivity) getActivity()).displayFragment(detailsFragment);
                 }
             });
         }

@@ -1,9 +1,7 @@
 package graphical.wireless.espace.ui;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
 import graphical.wireless.espace.ui.data.PlanetData;
-import graphical.wireless.espace.ui.data.PotdData;
 
 
 /**
@@ -55,6 +51,8 @@ public class MapFragment extends Fragment {
         // specify an adapter (see also next example)
         mAdapter = new MapAdapter(((MainActivity)getActivity()).planetDataset);
         recyclerView.setAdapter(mAdapter);
+
+
 
         return temp;
     }
@@ -97,20 +95,19 @@ public class MapFragment extends Fragment {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
 
-//            ( (TextView) holder.cardView.findViewById(R.id.planet_name)).setText(data[position]);
+            ( (TextView) holder.cardView.findViewById(R.id.planet_name)).setText(data.get(position).getName());
 
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
-//            vg.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-//
-//                    intent.putExtra("planetData", data[pos]);
-//                    startActivity(intent);
-//                }
-//            });
+            vg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DetailsFragment detailsFragment = new DetailsFragment(data.get(pos));
+
+                    ((MainActivity) getActivity()).displayFragment(detailsFragment);
+                }
+            });
 
             PlanetData planet = data.get(pos);
 

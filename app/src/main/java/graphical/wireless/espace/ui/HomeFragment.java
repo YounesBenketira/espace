@@ -1,10 +1,6 @@
 package graphical.wireless.espace.ui;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
 import graphical.wireless.espace.ui.data.PotdData;
@@ -97,15 +90,15 @@ public class HomeFragment extends Fragment {
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
-//            vg.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-//
-//                    intent.putExtra("potdData", data[pos]);
-//                    startActivity(intent);
-//                }
-//            });
+            vg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DetailsFragment detailsFragment = new DetailsFragment(data.get(pos));
+
+                    ((MainActivity) getActivity()).displayFragment(detailsFragment);
+
+                }
+            });
 
             PotdData temp = data.get(pos);
 
@@ -113,7 +106,10 @@ public class HomeFragment extends Fragment {
             ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDate());
 
             ImageView imageView = vg.findViewById(R.id.potd_image);
-            Picasso.get().load(temp.getHdurl()).into(imageView);
+            if(temp.getUrl().charAt(8) != 'w')
+                Picasso.get().load(temp.getUrl()).into(imageView);
+            else
+                imageView.setImageResource(R.drawable.noimage);
         }
 
         // Return the size of your dataset (invoked by the layout manager)

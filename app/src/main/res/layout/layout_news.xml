@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200sp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="#00FF00"
+    app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="6dp"
     app:cardElevation="6dp"
     app:cardUseCompatPadding="true">
@@ -25,30 +24,30 @@
             android:id="@+id/news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:singleLine="true"
             android:text=""
+            android:textColor="@android:color/white"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/news_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:text=""
+            android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:textStyle="normal"
-            android:textColor="@android:color/black"/>
+            android:textStyle="normal" />
 
         <graphical.wireless.espace.ui.components.FavouriteButton
             android:id="@+id/news_favourite_button"
