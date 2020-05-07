@@ -33,28 +33,28 @@ public class DetailsFragment extends Fragment {
         if (data instanceof PotdData) {
             PotdData temp = (PotdData) data;
 
-            date = temp.getDate();
-            imageURL = temp.getUrl();
-            title = temp.getTitle();
-            author = temp.getCopyright();
-            desc = temp.getExplanation();
+            date = temp.getDateText();
+            imageURL = temp.getImageURL();
+            title = temp.getTitleText();
+            author = temp.getAuthorText();
+            desc = temp.getDescriptionText();
 
         } else if (data instanceof NewsData) {
             NewsData temp = (NewsData) data;
 
-            date = temp.getPublishedAt();
-            imageURL = temp.getUrlToImage();
-            title = temp.getTitle();
-            author = temp.getAuthor();
-            desc = temp.getDescription();
+            date = temp.getDateText();
+            imageURL = temp.getImageURL();
+            title = temp.getTitleText();
+            author = temp.getAuthorText();
+            desc = temp.getDescriptionText();
         } else {
             PlanetData temp = (PlanetData) data;
 
             date = "";
-            imageID = temp.getImageId();
-            title = temp.getName();
+            imageID = temp.getImageID();
+            title = temp.getTitleText();
             author = "";
-            desc = temp.getDesc();
+            desc = temp.getDescriptionText();
         }
     }
 

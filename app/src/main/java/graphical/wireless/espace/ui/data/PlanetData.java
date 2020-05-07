@@ -5,25 +5,7 @@ import android.graphics.drawable.Drawable;
 public class PlanetData extends EspaceData {
 
     // Constructors
-    public PlanetData(String name, String desc, boolean isFavourite, int image) {
-        super(name, desc, "", isFavourite, image);
-    }
-
-    // Accessors
-    public String getName() {
-        return this.getMainText();
-    }
-
-    public String getDesc() {
-        return this.getAuxText();
-    }
-
-    // Mutators
-    public void setName(String name) {
-        this.setMainText(name);
-    }
-
-    public void setDesc(String desc) {
-        this.setAuxText(desc);
+    public PlanetData(String title, String description, String author, String date, String imageURL, int imageID, boolean isFavourite) {
+        super(title, description, author, date, null, imageID, isFavourite);
     }
 }

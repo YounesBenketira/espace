@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 
 import java.util.Map;
 
-public class NewsData extends EspaceData implements Parcelable {
+public class NewsData extends EspaceData{
     private Map<String, String> source;
     private String author;
     private String title;
@@ -17,70 +17,11 @@ public class NewsData extends EspaceData implements Parcelable {
     private String content;
 
     public static NewsData fromJson(String response) {
-        return new Gson().fromJson(response, NewsData.class);
+        NewsData temp = new Gson().fromJson(response, NewsData.class);
+        return new NewsData(temp.title, temp.description, temp.author, temp.publishedAt, temp.urlToImage, -1, false);
     }
 
-    public Map<String, String> getSource() {
-        return source;
-    }
-
-    public void setSource(Map<String, String> source) {
-        this.source = source;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUrlToImage() {
-        return urlToImage;
-    }
-
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-    }
-
-    public String getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(String publishedAt) {
-        this.publishedAt = publishedAt;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public NewsData(String title, String description, String author, String date, String imageURL, int imageID, boolean isFavourite) {
+        super(title, description, author, date, imageURL, imageID, isFavourite);
     }
 }

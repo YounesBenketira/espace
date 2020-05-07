@@ -1,10 +1,8 @@
 package graphical.wireless.espace.ui.data;
 
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.google.gson.Gson;
-
-import testing.components.PictureOfTheDay;
 
 public class PotdData extends EspaceData {
     // The property names must be the same as the corresponding label in the JSON string
@@ -15,7 +13,7 @@ public class PotdData extends EspaceData {
     private String title;
     private String url;
     private String hdurl;
-    //private String service_version;
+    private String service_version;
 
     /**
      * Using Gson library to parse the JSON string into the POTD properties
@@ -24,7 +22,13 @@ public class PotdData extends EspaceData {
      * @return Picture-Of-The-Day Object (POTD)
      */
     public static PotdData fromJson(String response) {
-        return new Gson().fromJson(response, PotdData.class);
+        PotdData temp = new Gson().fromJson(response, PotdData.class);
+//        Log.i("TEST", "fromJson: "+ temp.title);
+        return new PotdData(temp.title, temp.explanation, temp.copyright, temp.date, temp.url, -1, false);
+    }
+
+    public PotdData(String title, String description, String author, String date, String imageURL, int imageID, boolean isFavourite) {
+        super(title, description, author, date, imageURL, imageID, isFavourite);
     }
 
     /**
@@ -34,62 +38,5 @@ public class PotdData extends EspaceData {
      */
     public String toString() {
         return new Gson().toJson(this);
-    }
-
-    // Getters & Setters
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
-
-    public String getMedia_type() {
-        return media_type;
-    }
-
-    public void setMedia_type(String media_type) {
-        this.media_type = media_type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getHdurl() {
-        return hdurl;
-    }
-
-    public void setHdurl(String hdurl) {
-        this.hdurl = hdurl;
     }
 }

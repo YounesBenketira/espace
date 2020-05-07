@@ -107,20 +107,16 @@ public class NewsFragment extends Fragment {
 
             NewsData article = data.get(pos);
 
-            ((TextView) vg.findViewById(R.id.news_title)).setText(article.getTitle());
+            ((TextView) vg.findViewById(R.id.news_title)).setText(article.getTitleText());
 
             ImageView imageView = vg.findViewById(R.id.news_image);
 
-            Log.i("TEST", "onBindViewHolder: " + article.getUrlToImage());
 
 
-            if (article.getUrlToImage() == null || article.getUrlToImage().charAt(4) != 's')
+            if (article.getImageURL() == null || article.getImageURL().charAt(4) != 's')
                 imageView.setImageResource(R.drawable.noimage);
             else {
-//                if (article.getUrlToImage().charAt(4) != 's')
-//                    imageView.setImageResource(R.drawable.noimage);
-//                else
-                    Picasso.get().load(article.getUrlToImage()).into(imageView);
+                    Picasso.get().load(article.getImageURL()).into(imageView);
             }
 
 

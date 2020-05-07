@@ -37,6 +37,7 @@ import graphical.wireless.espace.ui.MapFragment;
 import graphical.wireless.espace.ui.NewsFragment;
 import graphical.wireless.espace.ui.SearchFragment;
 import graphical.wireless.espace.ui.WelcomeFragment;
+import graphical.wireless.espace.ui.data.EspaceData;
 import graphical.wireless.espace.ui.data.NewsData;
 import graphical.wireless.espace.ui.data.PlanetData;
 import graphical.wireless.espace.ui.data.PotdData;
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         loadNewsData();
         loadPlanetData();
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         int[] planetImages = new int[]{R.drawable.jupiter, R.drawable.neptune, R.drawable.mars, R.drawable.saturn, R.drawable.uranus};
 
         for (int i = 0; i < planetNames.length; i++) {
-            PlanetData temp = new PlanetData(planetNames[i], planetDesc[i], false, planetImages[i]);
+            PlanetData temp = new PlanetData(planetNames[i], planetDesc[i],"","","", planetImages[i],false);
             planetDataset.add(temp);
         }
     }

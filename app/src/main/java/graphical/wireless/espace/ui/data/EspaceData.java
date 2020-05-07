@@ -20,31 +20,91 @@ public class EspaceData implements Parcelable {
     };
 
     // Fields
-    private String mainText;
-    private String auxText;
+    private String titleText;
+    private String descriptionText;
+    private String authorText;
     private String dateText;
+    private String imageURL;
+    private int imageID;
 
     private boolean isFavourite;
 
-    private int imageId;
-
     // Constructors
-    EspaceData(String mainText, String auxText, String dateText, boolean isFavourite, int imageId) {
-        this.mainText = mainText;
-        this.auxText = auxText;
-        this.dateText = dateText;
+    EspaceData(String title, String description, String author, String date, String imageURL, int imageID, boolean isFavourite) {
+        this.titleText = title;
+        this.descriptionText = description;
+        this.authorText = author;
+        this.dateText = date;
+
+        if (imageID == -1) {
+            this.imageURL = imageURL;
+        } else {
+            this.imageID = imageID;
+        }
+
         this.isFavourite = isFavourite;
-        this.imageId = imageId;
+    }
+
+    public String getTitleText() {
+        return titleText;
+    }
+
+    public void setTitleText(String titleText) {
+        this.titleText = titleText;
+    }
+
+    public String getDescriptionText() {
+        return descriptionText;
+    }
+
+    public void setDescriptionText(String descriptionText) {
+        this.descriptionText = descriptionText;
+    }
+
+    public String getAuthorText() {
+        return authorText;
+    }
+
+    public void setAuthorText(String authorText) {
+        this.authorText = authorText;
+    }
+
+    public String getDateText() {
+        return dateText;
+    }
+
+    public void setDateText(String dateText) {
+        this.dateText = dateText;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public int getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(int imageID) {
+        this.imageID = imageID;
     }
 
     private EspaceData(Parcel in) {
-        mainText = in.readString();
-        auxText = in.readString();
+        titleText = in.readString();
+        descriptionText = in.readString();
+        authorText = in.readString();
         dateText = in.readString();
 
-        isFavourite = in.readByte() == 1;
+        if (this.imageURL == null)
+            imageID = in.readInt();
+        else
+            imageURL = in.readString();
 
-        imageId = in.readInt();
+        isFavourite = in.readByte() == 1;
     }
 
     EspaceData() {
@@ -52,45 +112,14 @@ public class EspaceData implements Parcelable {
     }
 
     // Accessors
-    public String getMainText() {
-        return mainText;
-    }
 
-    public String getAuxText() {
-        return auxText;
-    }
-
-    public String getDateText() {
-        return dateText;
-    }
 
     public boolean isFavourite() {
         return isFavourite;
     }
 
-    public int getImageId() {
-        return imageId;
-    }
-
-    // Mutators
-    public void setMainText(String text) {
-        mainText = text;
-    }
-
-    public void setAuxText(String text) {
-        auxText = text;
-    }
-
-    public void setDateText(String text) {
-        dateText = text;
-    }
-
     public void setFavourite(boolean isFavourite) {
         this.isFavourite = isFavourite;
-    }
-
-    public void setImageId(int id) {
-        imageId = id;
     }
 
     // Parcelable Methods
@@ -101,10 +130,15 @@ public class EspaceData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mainText);
-        dest.writeString(auxText);
+        dest.writeString(titleText);
+        dest.writeString(descriptionText);
+        dest.writeString(authorText);
         dest.writeString(dateText);
-        dest.writeByte(isFavourite ? (byte)1 : (byte)0);
-        dest.writeInt(imageId);
+
+
+        dest.writeString(imageURL);
+        dest.writeInt(imageID);
+
+        dest.writeByte(isFavourite ? (byte) 1 : (byte) 0);
     }
 }

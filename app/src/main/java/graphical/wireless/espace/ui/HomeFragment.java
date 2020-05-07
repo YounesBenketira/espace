@@ -102,12 +102,12 @@ public class HomeFragment extends Fragment {
 
             PotdData temp = data.get(pos);
 
-            ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getTitle());
-            ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDate());
+            ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
+            ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
 
             ImageView imageView = vg.findViewById(R.id.potd_image);
-            if(temp.getUrl().charAt(8) != 'w')
-                Picasso.get().load(temp.getUrl()).into(imageView);
+            if(temp.getImageURL().charAt(8) != 'w')
+                Picasso.get().load(temp.getImageURL()).into(imageView);
             else
                 imageView.setImageResource(R.drawable.noimage);
         }

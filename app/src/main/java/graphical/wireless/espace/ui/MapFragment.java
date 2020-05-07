@@ -94,9 +94,6 @@ public class MapFragment extends Fragment {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-
-            ( (TextView) holder.cardView.findViewById(R.id.planet_name)).setText(data.get(position).getName());
-
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
@@ -111,10 +108,10 @@ public class MapFragment extends Fragment {
 
             PlanetData planet = data.get(pos);
 
-            ((TextView)vg.findViewById(R.id.planet_name)).setText(planet.getName());
+            ((TextView)vg.findViewById(R.id.planet_name)).setText(planet.getTitleText());
 
             ImageView imageView = vg.findViewById(R.id.planet_image);
-            imageView.setImageResource(planet.getImageId());
+            imageView.setImageResource(planet.getImageID());
         }
 
         // Return the size of your dataset (invoked by the layout manager)
