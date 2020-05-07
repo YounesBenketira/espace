@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.icu.text.Edits;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.Iterator;
@@ -32,44 +33,44 @@ public class DetailsActivity extends AppCompatActivity {
         for (String key : intent.getExtras().keySet())
             dataType = key;
 
-        EspaceData parcel;
-        switch (dataType) {
-            case "potdData":
-                parcel = intent.getParcelableExtra("potdData");
-
-                ((TextView) findViewById(R.id.details_title)).setText(parcel.getMainText());
-                ((TextView) findViewById(R.id.details_description)).setText(parcel.getAuxText());
-                ((TextView) findViewById(R.id.details_date)).setText(parcel.getDateText());
-                ((ImageView) findViewById(R.id.details_image)).setImageResource(parcel.getImageId());
-                break;
-            case "planetData":
-                parcel = intent.getParcelableExtra("planetData");
-
-                ((TextView) findViewById(R.id.details_title)).setText(parcel.getMainText());
-                ((TextView) findViewById(R.id.details_description)).setText(parcel.getAuxText());
-                ((ImageView) findViewById(R.id.details_image)).setImageResource(parcel.getImageId());
-                ((TextView) findViewById(R.id.details_author)).setText("");
-                ((TextView) findViewById(R.id.details_date)).setText("");
-                break;
-            case "newsData":
-                parcel = intent.getParcelableExtra("newsData");
-
-                ((TextView) findViewById(R.id.details_title)).setText(parcel.getMainText());
-                ((TextView) findViewById(R.id.details_description)).setText(parcel.getAuxText());
-                ((ImageView) findViewById(R.id.details_image)).setImageResource(parcel.getImageId());
-                ((TextView) findViewById(R.id.details_author)).setText("");
-                ((TextView) findViewById(R.id.details_date)).setText("");
-                break;
-            case "dummyData":
-                String title = intent.getDataString();
-
-                ((TextView) findViewById(R.id.details_title)).setText("Title");
-                ((ImageView) findViewById(R.id.details_image)).setImageResource(R.drawable.potd_0);
-                ((TextView) findViewById(R.id.details_author)).setText("");
-                ((TextView) findViewById(R.id.details_date)).setText("");
-                break;
-
-        }
+//        Parcelable parcel;
+//        switch (dataType) {
+//            case "potdData":
+//                parcel = intent.getParcelableExtra("potdData");
+//
+//                ((TextView) findViewById(R.id.details_title)).setText(parcel.getMainText());
+//                ((TextView) findViewById(R.id.details_description)).setText(parcel.getAuxText());
+//                ((TextView) findViewById(R.id.details_date)).setText(parcel.getDateText());
+//                ((ImageView) findViewById(R.id.details_image)).setImageResource(parcel.getImageId());
+//                break;
+//            case "planetData":
+//                parcel = intent.getParcelableExtra("planetData");
+//
+//                ((TextView) findViewById(R.id.details_title)).setText(parcel.getMainText());
+//                ((TextView) findViewById(R.id.details_description)).setText(parcel.getAuxText());
+//                ((ImageView) findViewById(R.id.details_image)).setImageResource(parcel.getImageId());
+//                ((TextView) findViewById(R.id.details_author)).setText("");
+//                ((TextView) findViewById(R.id.details_date)).setText("");
+//                break;
+//            case "newsData":
+//                parcel = intent.getParcelableExtra("newsData");
+//
+//                ((TextView) findViewById(R.id.details_title)).setText(parcel.getMainText());
+//                ((TextView) findViewById(R.id.details_description)).setText(parcel.getAuxText());
+//                ((ImageView) findViewById(R.id.details_image)).setImageResource(parcel.getImageId());
+//                ((TextView) findViewById(R.id.details_author)).setText("");
+//                ((TextView) findViewById(R.id.details_date)).setText("");
+//                break;
+//            case "dummyData":
+//                String title = intent.getDataString();
+//
+//                ((TextView) findViewById(R.id.details_title)).setText("Title");
+//                ((ImageView) findViewById(R.id.details_image)).setImageResource(R.drawable.potd_0);
+//                ((TextView) findViewById(R.id.details_author)).setText("");
+//                ((TextView) findViewById(R.id.details_date)).setText("");
+//                break;
+//
+//        }
 
 
     }

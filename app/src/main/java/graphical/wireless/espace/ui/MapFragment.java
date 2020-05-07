@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
@@ -58,7 +60,7 @@ public class MapFragment extends Fragment {
     }
 
     class MapAdapter extends RecyclerView.Adapter<MapAdapter.MyViewHolder> {
-        private PlanetData[] data;
+        private ArrayList<PlanetData> data;
 
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
@@ -73,7 +75,7 @@ public class MapFragment extends Fragment {
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public MapAdapter(PlanetData[] myDataset) {
+        public MapAdapter(ArrayList<PlanetData> myDataset) {
             data = myDataset;
         }
 
@@ -100,17 +102,17 @@ public class MapFragment extends Fragment {
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
-            vg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+//            vg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+//
+//                    intent.putExtra("planetData", data[pos]);
+//                    startActivity(intent);
+//                }
+//            });
 
-                    intent.putExtra("planetData", data[pos]);
-                    startActivity(intent);
-                }
-            });
-
-            PlanetData planet = data[pos];
+            PlanetData planet = data.get(pos);
 
             ((TextView)vg.findViewById(R.id.planet_name)).setText(planet.getName());
 
@@ -121,7 +123,7 @@ public class MapFragment extends Fragment {
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return data.length;
+            return data.size();
         }
     }
 }

@@ -92,27 +92,4 @@ public class PotdData extends EspaceData {
     public void setHdurl(String hdurl) {
         this.hdurl = hdurl;
     }
-
-    // Constructors
-    public PotdData(String name, String desc, String date, boolean isFavourite, int image) {
-        super(name, desc, date, isFavourite, image);
-    }
-
-//    // Accessors
-//    public String getName() {
-//        return this.getMainText();
-//    }
-//
-//    public String getDesc() {
-//        return this.getAuxText();
-//    }
-//
-//    // Mutators
-//    public void setName(String name) {
-//        this.setMainText(name);
-//    }
-//
-//    public void setDesc(String desc) {
-//        this.setAuxText(desc);
-//    }
 }

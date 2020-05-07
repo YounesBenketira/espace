@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Espace</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="search_type">
         <item>PotD</item>
         <item>News</item>
@@ -47,6 +48,8 @@
         <item>Pluto is now a planet again</item>
         <item>Dog returned to earth</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="news_descriptions">
         <item>Dog was found on mars after owner lost it 10 years ago. It built its home in the dirt.</item>
         <item>Elon Musk sets his eyes to neptune after conquering Mars and making it his personal planet.</item>

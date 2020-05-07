@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
@@ -55,7 +59,7 @@ public class NewsFragment extends Fragment {
     }
 
     class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
-        private NewsData[] data;
+        private ArrayList<NewsData> data;
 
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
@@ -70,7 +74,7 @@ public class NewsFragment extends Fragment {
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public NewsAdapter(NewsData[] myDataset) {
+        public NewsAdapter(ArrayList<NewsData> myDataset) {
             data = myDataset;
         }
 
@@ -94,28 +98,28 @@ public class NewsFragment extends Fragment {
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
-            vg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+//            vg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+//
+//                    intent.putExtra("newsData", data[pos]);
+//                    startActivity(intent);
+//                }
+//            });
 
-                    intent.putExtra("newsData", data[pos]);
-                    startActivity(intent);
-                }
-            });
+            NewsData article = data.get(pos);
 
-            NewsData article = data[pos];
-
-            ((TextView)vg.findViewById(R.id.news_title)).setText(article.getMainText());
+            ((TextView)vg.findViewById(R.id.news_title)).setText(article.getTitle());
 
             ImageView imageView = vg.findViewById(R.id.news_image);
-            imageView.setImageResource(article.getImageId());
+            Picasso.get().load(article.getUrlToImage()).into(imageView);
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return data.length;
+            return data.size();
         }
     }
 }

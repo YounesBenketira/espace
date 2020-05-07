@@ -19,6 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import graphical.wireless.espace.DetailsActivity;
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
@@ -55,7 +59,7 @@ public class HomeFragment extends Fragment {
     }
 
     class POTDAdapter extends RecyclerView.Adapter<POTDAdapter.MyViewHolder> {
-        private PotdData[] data;
+        private ArrayList<PotdData> data;
 
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
@@ -70,7 +74,7 @@ public class HomeFragment extends Fragment {
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public POTDAdapter(PotdData[] ptodData) {
+        public POTDAdapter(ArrayList<PotdData> ptodData) {
             data = ptodData;
         }
 
@@ -84,32 +88,6 @@ public class HomeFragment extends Fragment {
 
             return new MyViewHolder(v);
         }
-        // Replace the contents of a view (invoked by the layout manager)
-//        @Override
-//        public void onBindViewHolder(MyViewHolder holder, int position) {
-//            // - get element from your dataset at this position
-//            // - replace the contents of the view with that element
-//            ViewGroup vg = holder.cardView;
-//            final int pos = position;
-//
-////            vg.setOnClickListener(new View.OnClickListener() {
-////                @Override
-////                public void onClick(View v) {
-////                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-////
-////                    intent.putExtra("potdData", data[pos]);
-////                    startActivity(intent);
-////                }
-////            });
-//
-//            PotdData temp = data[pos];
-//
-//            ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getMainText());
-//            ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
-//
-//            ImageView imageView = vg.findViewById(R.id.potd_image);
-//            Picasso.get().load(temp.getHdurl()).into(imageView);
-//        }
 
         // Replace the contents of a view (invoked by the layout manager)
         @Override
@@ -119,29 +97,29 @@ public class HomeFragment extends Fragment {
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
-            vg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+//            vg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+//
+//                    intent.putExtra("potdData", data[pos]);
+//                    startActivity(intent);
+//                }
+//            });
 
-                    intent.putExtra("potdData", data[pos]);
-                    startActivity(intent);
-                }
-            });
+            PotdData temp = data.get(pos);
 
-            PotdData potd = data[pos];
-
-            ((TextView)vg.findViewById(R.id.potd_title)).setText(potd.getMainText());
-            ((TextView)vg.findViewById(R.id.potd_date)).setText(potd.getDateText());
+            ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getTitle());
+            ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDate());
 
             ImageView imageView = vg.findViewById(R.id.potd_image);
-            imageView.setImageResource(potd.getImageId());
+            Picasso.get().load(temp.getHdurl()).into(imageView);
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return data.length;
+            return data.size();
         }
     }
 
