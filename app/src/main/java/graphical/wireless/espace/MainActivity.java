@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String URL_TODAYS_POTD = "https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4";
     private static String URL_PLANETS = "https://thawing-savannah-59760.herokuapp.com/api/v1/planet/getAllPlanets";
-    private static final String URL_NEWS = "https://newsapi.org/v2/everything?language=en&q=astronomy&from=2020-04-07&sortBy=publishedAt&apiKey=53c9fbcec73142c984a917008a6bcaf1";
+    private static final String URL_NEWS = "https://newsapi.org/v2/everything?language=en&q=astronomy&from=2020-05-01&sortBy=publishedAt&apiKey=53c9fbcec73142c984a917008a6bcaf1";
     private static final String TAG_RESPONSE = "JSON";
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {

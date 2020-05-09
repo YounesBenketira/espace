@@ -113,7 +113,7 @@ public class NewsFragment extends Fragment {
 
 
 
-            if (article.getImageURL() == null || article.getImageURL().charAt(4) != 's')
+            if (article.getImageURL() == null || article.getImageURL().length() == 0 || article.getImageURL().charAt(4) != 's')
                 imageView.setImageResource(R.drawable.noimage);
             else {
                     Picasso.get().load(article.getImageURL()).into(imageView);

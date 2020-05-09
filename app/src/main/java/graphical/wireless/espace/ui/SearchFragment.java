@@ -67,7 +67,6 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
 
-
         // Search bar
         final Spinner spinner = temp.findViewById(R.id.filter_search);
 
@@ -76,7 +75,7 @@ public class SearchFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selected = spinner.getSelectedItem().toString();
 
-                switch (selected){
+                switch (selected) {
                     case "All":
                         dataSet.clear();
                         dataSet.addAll(((MainActivity) getActivity()).newsDataset);
@@ -115,10 +114,10 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.i("TEST", "Size: " + dataSet.size());
-                for(int i = 0; i < dataSet.size(); i++){
+                for (int i = 0; i < dataSet.size(); i++) {
                     Log.i("TEST", "Title: " + dataSet.get(i).getTitleText());
                     Log.i("TEST", "Index: " + i);
-                    if(!dataSet.get(i).getTitleText().contains(query)) {
+                    if (!dataSet.get(i).getTitleText().contains(query)) {
                         dataSet.remove(i);
                     }
                 }
@@ -185,11 +184,15 @@ public class SearchFragment extends Fragment {
 
             ImageView imageView = vg.findViewById(R.id.potd_image);
 
+            String imageURL = temp.getImageURL();
             if (temp instanceof PlanetData)
                 imageView.setImageResource(temp.getImageID());
-            else {
-                Picasso.get().load(temp.getImageURL()).into(imageView);
+            else if (imageURL == null || imageURL.length() == 0 || imageURL.charAt(4) != 's') {
+                imageView.setImageResource(R.drawable.noimage);
+            } else {
+                Picasso.get().load(imageURL).into(imageView);
             }
+
             vg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
