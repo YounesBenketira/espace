@@ -67,8 +67,8 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
 
+
         // Search bar
-        SearchView searchView = temp.findViewById(R.id.txtbox_search);
         final Spinner spinner = temp.findViewById(R.id.filter_search);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -110,6 +110,28 @@ public class SearchFragment extends Fragment {
 
         });
 
+        SearchView searchView = temp.findViewById(R.id.txtbox_search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i("TEST", "Size: " + dataSet.size());
+                for(int i = 0; i < dataSet.size(); i++){
+                    Log.i("TEST", "Title: " + dataSet.get(i).getTitleText());
+                    Log.i("TEST", "Index: " + i);
+                    if(!dataSet.get(i).getTitleText().contains(query)) {
+                        dataSet.remove(i);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
 
         return temp;
     }
@@ -156,7 +178,7 @@ public class SearchFragment extends Fragment {
             ViewGroup vg = holder.cardView;
             final int pos = position;
 
-            EspaceData temp = mDataset.get(position);
+            final EspaceData temp = mDataset.get(position);
 
             ((TextView) vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
             ((TextView) vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
@@ -172,7 +194,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     DetailsFragment detailsFragment = new DetailsFragment(mDataset.get(pos));
-
+                    Log.i("TEST", "onBindViewHolder: " + temp.getTitleText());
                     ((MainActivity) getActivity()).displayFragment(detailsFragment);
                 }
             });
