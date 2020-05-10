@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import graphical.wireless.espace.MainActivity;
@@ -40,16 +43,15 @@ import graphical.wireless.espace.ui.data.database.LocalDatabase;
  */
 public class FavouritesFragment extends Fragment {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private static FavouritesFragment.FavouritesAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    // Unused
-    private String[] myDataset;
+    private MainActivity mainActivity;
+
+    private static LocalDatabase localDatabase;
+    private static List<Favourite> favouriteList = new ArrayList<>();
 
     public FavouritesFragment() {
-
-        // Unused atm, will not be string[]
-        myDataset = new String[]{"Favourite Item", "Favourite Item", "Favourite Item", "Favourite Item", "Favourite Item"};
     }
 
     @Override
@@ -57,7 +59,10 @@ public class FavouritesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View temp = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-        ArrayList<Favourite> favouriteList = new ArrayList<>();
+        mainActivity = (MainActivity) getActivity();
+
+        Context context = mainActivity.getApplicationContext();
+        localDatabase = LocalDatabase.getInstance(context);
 
         recyclerView = temp.findViewById(R.id.favourites_recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -68,47 +73,104 @@ public class FavouritesFragment extends Fragment {
         mAdapter = new FavouritesFragment.FavouritesAdapter(favouriteList);
         recyclerView.setAdapter(mAdapter);
 
-//        new FavouriteAsyncTask(((MainActivity)getActivity())).execute();
+        getData();
+
+        Button addBtn = temp.findViewById(R.id.addBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addData();
+            }
+        });
+
+        Button getBtn = temp.findViewById(R.id.getBtn);
+        getBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+            }
+        });
+
 
         return temp;
     }
 
-//    private static class FavouriteAsyncTask extends AsyncTask<Void, Void, Integer> {
-//
-//        //Prevent leak
-//        private WeakReference<MainActivity> weakActivity;
-//        private String email;
-//        private String phone;
-//        private String license;
-//
-//        public FavouriteAsyncTask(Activity activity) {
-//            weakActivity = new WeakReference<MainActivity>((MainActivity) activity);
-////            this.email = email;
-////            this.phone = phone;
-////            this.license = license;
-//        }
-//
-//        @Override
-//        protected Integer doInBackground(Void... params) {
-//            FavouriteDao favouriteDao = FavouritesFragment.db.getFavouriteDao();
-//            return favouriteDao.getAll().size();
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Integer favouriteCount) {
-//            Activity activity = weakActivity.get();
-//            if(activity == null) {
-//                return;
-//            }
-//
-//            if (favouriteCount > 0) {
-//                //2: If it already exists then prompt user
-//                Toast.makeText(activity, "Agent already exists!", Toast.LENGTH_LONG).show();
+    private void addData() {
+        final Favourite[] favourtiesTemp = new Favourite[1];
+        favourtiesTemp[0] = new Favourite(0, "Test", "This is but a test", "Younes Benketira", "2020-05-10",
+                "https://cdn.cnn.com/cnnnext/dam/assets/170407094334-sw-dragon-boating-00004113-exlarge-169.jpg", -1);
+
+        new FavouriteInsertAsyncTask(mainActivity, Arrays.asList(favourtiesTemp)).execute();
+    }
+
+    private void getData() {
+        FavouriteGetAsyncTask favouriteGetAsyncTask = new FavouriteGetAsyncTask(mainActivity);
+        favouriteGetAsyncTask.execute();
+    }
+
+    private static class FavouriteGetAsyncTask extends AsyncTask<Void, Void, List<Favourite>> {
+
+        //Prevent leak
+        private WeakReference<MainActivity> weakActivity;
+
+        public FavouriteGetAsyncTask(Activity activity) {
+            weakActivity = new WeakReference<MainActivity>((MainActivity) activity);
+        }
+
+        @Override
+        protected List<Favourite> doInBackground(Void... params) {
+            FavouriteDao favouriteDao = FavouritesFragment.localDatabase.favouriteDao();
+            return favouriteDao.getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<Favourite> favouriteList) {
+            Activity activity = weakActivity.get();
+            if (activity == null) {
+                return;
+            }
+            mAdapter.updateData(favouriteList);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private static class FavouriteInsertAsyncTask extends AsyncTask<Favourite, Void, List<Favourite>> {
+
+        //Prevent leak
+        private WeakReference<MainActivity> weakActivity;
+        List<Favourite> favouriteList;
+
+        public FavouriteInsertAsyncTask(Activity activity, List<Favourite> favourites) {
+            weakActivity = new WeakReference<MainActivity>((MainActivity) activity);
+            favouriteList = favourites;
+        }
+
+        @Override
+        protected List<Favourite> doInBackground(Favourite... favToBeInserted) {
+
+
+            FavouriteDao favouriteDao = FavouritesFragment.localDatabase.favouriteDao();
+//            List<Favourite> temp = new ArrayList<>(favouriteList);
+            Log.i("TEST", "doInBackground: " + favouriteList);
+            favouriteDao.insertAll(favouriteList);
+            return favouriteDao.getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List favouriteInserted) {
+            Activity activity = weakActivity.get();
+            if (activity == null) {
+                return;
+            }
+
+            Toast.makeText(activity, favouriteInserted.toString(), Toast.LENGTH_LONG).show();
+//            if (favouriteInserted) {
+//                Toast.makeText(activity, "Favourite Added!", Toast.LENGTH_LONG).show();
 //            } else {
-//                Toast.makeText(activity, "Agent does not exist! Hurray :)", Toast.LENGTH_LONG).show();
+//                Toast.makeText(activity, "Favourite Not Added!", Toast.LENGTH_LONG).show();
 //            }
-//        }
-//    }
+        }
+    }
 
     class FavouritesAdapter extends RecyclerView.Adapter<FavouritesFragment.FavouritesAdapter.FavouritesViewHolder> {
 
@@ -139,14 +201,19 @@ public class FavouritesFragment extends Fragment {
 
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public FavouritesAdapter(ArrayList<Favourite> myDataset) {
-            mDataset = myDataset;
+        public FavouritesAdapter(List<Favourite> myDataset) {
+            mDataset = new ArrayList(myDataset);
+        }
+
+        public void updateData(List<Favourite> data){
+            mDataset = new ArrayList<>();
+            mDataset.addAll(data);
         }
 
         // Create new views (invoked by the layout manager)
         @Override
         public FavouritesFragment.FavouritesAdapter.FavouritesViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                                    int viewType) {
+                                                                                            int viewType) {
             // create a new view
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.layout_potd, parent, false);
@@ -162,7 +229,7 @@ public class FavouritesFragment extends Fragment {
             // Set the UI elements
             holder.title.setText(fav.title);
             holder.date.setText(fav.date);
-            if(fav.imageURL != null && !fav.imageURL.isEmpty())
+            if (fav.imageURL != null && !fav.imageURL.isEmpty())
                 Picasso.get().load(fav.imageURL).into(holder.image);
             else
                 holder.image.setImageResource(R.drawable.noimage);

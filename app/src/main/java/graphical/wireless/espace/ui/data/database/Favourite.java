@@ -15,6 +15,7 @@ public class Favourite {
     public static final int DATA_PLANET = 1;
     public static final int DATA_NEWS = 2;
     public static final int DATA_ESPACE = 3;
+    public static int favouriteCount = 0;
 
     @PrimaryKey
     public int uid;
@@ -40,6 +41,17 @@ public class Favourite {
     @ColumnInfo(name = "image_id")
     public int imageID;
 
+    public Favourite(int espaceDatatype, String title, String description, String author, String date, String imageURL, int imageID) {
+        this.uid = favouriteCount++;
+        this.espaceDatatype = espaceDatatype;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.date = date;
+        this.imageURL = imageURL;
+        this.imageID = imageID;
+    }
+
     public EspaceData toEspaceData() {
         switch(espaceDatatype) {
             case DATA_POTD: return new PotdData(title, description, author, date, imageURL, imageID, true);
@@ -48,5 +60,19 @@ public class Favourite {
             case DATA_ESPACE:
             default: return new EspaceData(title, description, author, date, imageURL, imageID, true);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Favourite{" +
+                "uid=" + uid +
+                ", espaceDatatype=" + espaceDatatype +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", date='" + date + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", imageID=" + imageID +
+                "} ";
     }
 }
