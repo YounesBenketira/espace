@@ -2,24 +2,8 @@ package graphical.wireless.espace.ui.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
-
-import com.google.common.util.concurrent.ListenableFuture;
-import com.squareup.picasso.Picasso;
-
-import graphical.wireless.espace.R;
-import graphical.wireless.espace.ui.components.Cardable;
-import graphical.wireless.espace.ui.components.FavouriteButton;
-import graphical.wireless.espace.ui.data.database.Favourite;
-import graphical.wireless.espace.ui.data.database.FavouriteDatabase;
-
-public class EspaceData implements Parcelable, Cardable {
+public class EspaceData implements Parcelable {
 
     // Parcel Creator
     public static final Creator<EspaceData> CREATOR = new Creator<EspaceData>() {
@@ -155,33 +139,5 @@ public class EspaceData implements Parcelable, Cardable {
         dest.writeInt(imageID);
 
         dest.writeByte(isFavourite ? (byte) 1 : (byte) 0);
-    }
-
-    @Override
-    public CardView getCardView(CardView card) {
-        ((TextView)card.findViewById(R.id.card_title)).setText(getTitleText());
-        ((TextView)card.findViewById(R.id.card_date)).setText(getDateText());
-
-        ImageView imageView = card.findViewById(R.id.card_image);
-        if(getImageURL().charAt(8) != 'w')
-            Picasso.get().load(getImageURL()).into(imageView);
-        else
-            imageView.setImageResource(R.drawable.noimage);
-
-        final EspaceData data = this;
-        FavouriteButton fb = card.findViewById(R.id.card_favourite_button);
-
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((FavouriteButton)v).isChecked()) {
-                    FavouriteDatabase.insert(Favourite.fromData(data));
-                } else {
-                    FavouriteDatabase.delete(Favourite.fromData(data));
-                }
-            }
-        });
-
-        return card;
     }
 }

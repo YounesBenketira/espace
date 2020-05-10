@@ -106,7 +106,7 @@ public class MapFragment extends Fragment {
                 }
             });
 
-            data.get(pos).getCardView(vg);
+
         }
 
         // Return the size of your dataset (invoked by the layout manager)

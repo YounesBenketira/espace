@@ -177,7 +177,7 @@ public class SearchFragment extends Fragment {
             final int pos = position;
 
             final EspaceData temp = mDataset.get(position);
-            temp.getCardView(vg);
+
 
             vg.setOnClickListener(new View.OnClickListener() {
                 @Override

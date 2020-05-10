@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -13,19 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
 import graphical.wireless.espace.ui.data.EspaceData;
-import graphical.wireless.espace.ui.data.PotdData;
-import graphical.wireless.espace.ui.data.database.Favourite;
-import graphical.wireless.espace.ui.data.database.FavouriteDatabase;
+import graphical.wireless.espace.ui.data.database.CardListAdapter;
 
 
 /**
@@ -33,10 +25,6 @@ import graphical.wireless.espace.ui.data.database.FavouriteDatabase;
  */
 public class FavouritesFragment extends Fragment {
     private RecyclerView recyclerView;
-    private FavouritesAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-    private ArrayList<EspaceData> dataset;
 
     public FavouritesFragment() {
     }
@@ -44,27 +32,6 @@ public class FavouritesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        dataset = new ArrayList<>();
-        final FavouritesFragment ff = this;
-
-        // Async favourites database read
-        ListenableFuture<List<EspaceData>> futureDataset = FavouriteDatabase.getEspaceFavourites();
-
-        // Callback on completion of async database read
-        Futures.addCallback(futureDataset, new FutureCallback<List<EspaceData>>() {
-            @Override
-            public void onSuccess(@javax.annotation.Nullable List<EspaceData> result) {
-                if(result != null) {
-                    ff.mAdapter.setItems(new ArrayList<>(result));
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        }, FavouriteDatabase.service);
     }
 
     @Override
@@ -72,16 +39,13 @@ public class FavouritesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View temp = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-        recyclerView = (RecyclerView) temp.findViewById(R.id.favourites_recyclerView);
+        recyclerView = temp.findViewById(R.id.favourites_recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(temp.getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        final CardListAdapter adapter = new CardListAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
 
-        mAdapter = new FavouritesFragment.FavouritesAdapter(dataset);
-        recyclerView.setAdapter(mAdapter);
-
-//        new FavouriteAsyncTask(((MainActivity)getActivity())).execute();
+        recyclerView.setLayoutManager(new LinearLayoutManager(temp.getContext()));
 
         return temp;
     }
@@ -162,7 +126,6 @@ public class FavouritesFragment extends Fragment {
             CardView vg = holder.cardView;
             final int pos = position;
 
-            mDataset.get(pos).getCardView(vg);
             vg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

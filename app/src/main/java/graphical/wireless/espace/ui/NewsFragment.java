@@ -105,7 +105,7 @@ public class NewsFragment extends Fragment {
                 }
             });
 
-            data.get(pos).setCardView(vg);
+
         }
 
         // Return the size of your dataset (invoked by the layout manager)
