@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
                                                            int viewType) {
             // create a new view
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.layout_potd, parent, false);
+                    .inflate(R.layout.layout_card, parent, false);
 
             return new MyViewHolder(v);
         }
@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            ViewGroup vg = holder.cardView;
+            CardView vg = holder.cardView;
             final int pos = position;
 
             vg.setOnClickListener(new View.OnClickListener() {
@@ -100,16 +100,7 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            PotdData temp = data.get(pos);
-
-            ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
-            ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
-
-            ImageView imageView = vg.findViewById(R.id.potd_image);
-            if(temp.getImageURL().charAt(8) != 'w')
-                Picasso.get().load(temp.getImageURL()).into(imageView);
-            else
-                imageView.setImageResource(R.drawable.noimage);
+            data.get(pos).getCardView(vg);
         }
 
         // Return the size of your dataset (invoked by the layout manager)

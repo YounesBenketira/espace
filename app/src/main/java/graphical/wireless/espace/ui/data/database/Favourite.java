@@ -53,4 +53,27 @@ public class Favourite {
                 return new EspaceData(title, description, author, date,imageURL,imageID, true);
         }
     }
+
+    public static Favourite fromData(EspaceData data) {
+        Favourite fav = new Favourite();
+        fav.title = data.getTitleText();
+        fav.description = data.getDescriptionText();
+        fav.author = data.getAuthorText();
+        fav.date = data.getDateText();
+        fav.imageURL = data.getImageURL();
+        fav.imageID = data.getImageID();
+
+        int datatype = Favourite.ESPACE_DATA;
+        if(data instanceof PotdData) {
+            datatype = Favourite.POTD_DATA;
+        } else if(data instanceof PlanetData) {
+            datatype = Favourite.PLANET_DATA;
+        } else if(data instanceof NewsData) {
+            datatype = Favourite.NEWS_DATA;
+        }
+
+        fav.espaceDatatype = datatype;
+
+        return fav;
+    }
 }

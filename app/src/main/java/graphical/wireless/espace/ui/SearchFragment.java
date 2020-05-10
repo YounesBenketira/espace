@@ -1,7 +1,6 @@
 package graphical.wireless.espace.ui;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -162,7 +161,7 @@ public class SearchFragment extends Fragment {
                                                              int viewType) {
             // create a new view
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.layout_potd, parent, false);
+                    .inflate(R.layout.layout_card, parent, false);
 
             MyViewHolder vh = new MyViewHolder(v);
             return vh;
@@ -174,24 +173,11 @@ public class SearchFragment extends Fragment {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
 
-            ViewGroup vg = holder.cardView;
+            CardView vg = holder.cardView;
             final int pos = position;
 
             final EspaceData temp = mDataset.get(position);
-
-            ((TextView) vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
-            ((TextView) vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
-
-            ImageView imageView = vg.findViewById(R.id.potd_image);
-
-            String imageURL = temp.getImageURL();
-            if (temp instanceof PlanetData)
-                imageView.setImageResource(temp.getImageID());
-            else if (imageURL == null || imageURL.length() == 0 || imageURL.charAt(4) != 's') {
-                imageView.setImageResource(R.drawable.noimage);
-            } else {
-                Picasso.get().load(imageURL).into(imageView);
-            }
+            temp.getCardView(vg);
 
             vg.setOnClickListener(new View.OnClickListener() {
                 @Override

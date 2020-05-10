@@ -1,31 +1,31 @@
 package graphical.wireless.espace.ui;
 
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import java.io.IOException;
-import java.lang.ref.WeakReference;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
+import graphical.wireless.espace.ui.data.EspaceData;
+import graphical.wireless.espace.ui.data.PotdData;
 import graphical.wireless.espace.ui.data.database.Favourite;
-import graphical.wireless.espace.ui.data.database.FavouriteDao;
-import graphical.wireless.espace.ui.data.database.LocalDatabase;
+import graphical.wireless.espace.ui.data.database.FavouriteDatabase;
 
 
 /**
@@ -33,16 +33,38 @@ import graphical.wireless.espace.ui.data.database.LocalDatabase;
  */
 public class FavouritesFragment extends Fragment {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private FavouritesAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    protected static LocalDatabase db;
-    protected FavouriteDao favouriteDao;
-
-    private String[] myDataset;
+    private ArrayList<EspaceData> dataset;
 
     public FavouritesFragment() {
-        myDataset = new String[]{"Favourite Item", "Favourite Item", "Favourite Item", "Favourite Item", "Favourite Item"};
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        dataset = new ArrayList<>();
+        final FavouritesFragment ff = this;
+
+        // Async favourites database read
+        ListenableFuture<List<EspaceData>> futureDataset = FavouriteDatabase.getEspaceFavourites();
+
+        // Callback on completion of async database read
+        Futures.addCallback(futureDataset, new FutureCallback<List<EspaceData>>() {
+            @Override
+            public void onSuccess(@javax.annotation.Nullable List<EspaceData> result) {
+                if(result != null) {
+                    ff.mAdapter.setItems(new ArrayList<>(result));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, FavouriteDatabase.service);
     }
 
     @Override
@@ -50,33 +72,18 @@ public class FavouritesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View temp = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-        createDatabase();
-
-        ArrayList<Favourite> favouriteList = new ArrayList<>();
-
         recyclerView = (RecyclerView) temp.findViewById(R.id.favourites_recyclerView);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(temp.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new FavouritesFragment.FavouritesAdapter(favouriteList);
+        mAdapter = new FavouritesFragment.FavouritesAdapter(dataset);
         recyclerView.setAdapter(mAdapter);
 
 //        new FavouriteAsyncTask(((MainActivity)getActivity())).execute();
 
         return temp;
-    }
-
-    private void createDatabase() {
-        Context context = ((MainActivity) getActivity()).getApplicationContext();
-        db = Room.databaseBuilder(context,
-                LocalDatabase.class, "favourites").build();
-        favouriteDao = db.getFavouriteDao();
-    }
-
-    private void closeDb() throws IOException {
-        db.close();
     }
 
 //    private static class FavouriteAsyncTask extends AsyncTask<Void, Void, Integer> {
@@ -117,7 +124,7 @@ public class FavouritesFragment extends Fragment {
 //    }
 
     class FavouritesAdapter extends RecyclerView.Adapter<FavouritesFragment.FavouritesAdapter.MyViewHolder> {
-        private ArrayList<Favourite> mDataset;
+        private ArrayList<EspaceData> mDataset;
 
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
@@ -133,7 +140,7 @@ public class FavouritesFragment extends Fragment {
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public FavouritesAdapter(ArrayList<Favourite> myDataset) {
+        public FavouritesAdapter(ArrayList<EspaceData> myDataset) {
             mDataset = myDataset;
         }
 
@@ -143,7 +150,7 @@ public class FavouritesFragment extends Fragment {
                                                                                     int viewType) {
             // create a new view
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.layout_potd, parent, false);
+                    .inflate(R.layout.layout_card, parent, false);
 
             FavouritesFragment.FavouritesAdapter.MyViewHolder vh = new FavouritesFragment.FavouritesAdapter.MyViewHolder(v);
             return vh;
@@ -152,25 +159,29 @@ public class FavouritesFragment extends Fragment {
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(FavouritesFragment.FavouritesAdapter.MyViewHolder holder, int position) {
-            ViewGroup vg = holder.cardView;
+            CardView vg = holder.cardView;
             final int pos = position;
 
-            ((TextView) vg.findViewById(R.id.potd_title)).setText(mDataset.get(position).title);
+            mDataset.get(pos).getCardView(vg);
+            vg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DetailsFragment detailsFragment = new DetailsFragment(mDataset.get(pos));
 
-//            vg.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    DetailsFragment detailsFragment = new DetailsFragment(mDataset.get(position));
-//
-//                    ((MainActivity) getActivity()).displayFragment(detailsFragment);
-//                }
-//            });
+                   ((MainActivity) getActivity()).displayFragment(detailsFragment);
+                }
+            });
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
             return mDataset.size();
+        }
+
+        public void setItems(ArrayList<EspaceData> data) {
+            mDataset = data;
+            this.notifyDataSetChanged();
         }
     }
 }

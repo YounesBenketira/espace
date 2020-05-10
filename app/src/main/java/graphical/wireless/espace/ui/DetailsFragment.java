@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import graphical.wireless.espace.R;
+import graphical.wireless.espace.ui.data.EspaceData;
 import graphical.wireless.espace.ui.data.NewsData;
 import graphical.wireless.espace.ui.data.PlanetData;
 import graphical.wireless.espace.ui.data.PotdData;
@@ -29,7 +30,7 @@ public class DetailsFragment extends Fragment {
     String author;
     String desc;
 
-    public DetailsFragment(Object data) {
+    public DetailsFragment(EspaceData data) {
         if (data instanceof PotdData) {
             PotdData temp = (PotdData) data;
 
