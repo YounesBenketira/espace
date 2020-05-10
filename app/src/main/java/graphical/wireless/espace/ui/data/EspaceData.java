@@ -30,7 +30,7 @@ public class EspaceData implements Parcelable {
     private boolean isFavourite;
 
     // Constructors
-    EspaceData(String title, String description, String author, String date, String imageURL, int imageID, boolean isFavourite) {
+    public EspaceData(String title, String description, String author, String date, String imageURL, int imageID, boolean isFavourite) {
         this.titleText = title;
         this.descriptionText = description;
         this.authorText = author;

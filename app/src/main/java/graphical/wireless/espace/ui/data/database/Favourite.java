@@ -5,9 +5,17 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import graphical.wireless.espace.ui.data.EspaceData;
+import graphical.wireless.espace.ui.data.NewsData;
+import graphical.wireless.espace.ui.data.PlanetData;
+import graphical.wireless.espace.ui.data.PotdData;
 
 @Entity
 public class Favourite {
+    public static final int POTD_DATA = 0;
+    public static final int PLANET_DATA = 1;
+    public static final int NEWS_DATA = 2;
+    public static final int ESPACE_DATA = 3;
+
     @PrimaryKey
     public int uid;
 
@@ -31,4 +39,18 @@ public class Favourite {
 
     @ColumnInfo(name = "image_id")
     public int imageID;
+
+    public EspaceData getData() {
+        switch(espaceDatatype) {
+            case POTD_DATA:
+                return new PotdData(title, description,author,date,imageURL,imageID,true);
+            case PLANET_DATA:
+                return new PlanetData(title, description, author,date,imageURL,imageID,true);
+            case NEWS_DATA:
+                return new NewsData(title, description, author, date, imageURL,imageID,true);
+            case ESPACE_DATA:
+            default:
+                return new EspaceData(title, description, author, date,imageURL,imageID, true);
+        }
+    }
 }
