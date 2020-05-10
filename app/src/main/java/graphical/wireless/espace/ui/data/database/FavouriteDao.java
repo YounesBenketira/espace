@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -21,11 +22,11 @@ public interface FavouriteDao {
     @Query("SELECT COUNT(*) FROM Favourite WHERE title LIKE :title")
     int countFavouritesByTitle(String title);
 
-    @Insert
-    void insertAll(List<Favourite> fav);
+    @Insert(entity = Favourite.class)
+    void insert(Favourite... favourite);
 
-    @Insert
-    void insert(Favourite fav);
+    @Update(entity = Favourite.class)
+    void updateFavourite(Favourite... favourite);
 
     @Delete
     void delete(Favourite fav);

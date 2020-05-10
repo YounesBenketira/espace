@@ -41,6 +41,7 @@ import graphical.wireless.espace.ui.data.EspaceData;
 import graphical.wireless.espace.ui.data.NewsData;
 import graphical.wireless.espace.ui.data.PlanetData;
 import graphical.wireless.espace.ui.data.PotdData;
+import graphical.wireless.espace.ui.data.database.FavouriteDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Create the static singleton database interfacing object
+        FavouriteDatabase.createDatabase(this);
+
         // Load DataSets
         loadPotdData();
         loadNewsData();
