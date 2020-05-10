@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import graphical.wireless.espace.ui.data.database.FavouriteDatabase;
+
 public class PotdData extends EspaceData {
     // The property names must be the same as the corresponding label in the JSON string
     private String copyright;
@@ -24,7 +26,8 @@ public class PotdData extends EspaceData {
     public static PotdData fromJson(String response) {
         PotdData temp = new Gson().fromJson(response, PotdData.class);
 //        Log.i("TEST", "fromJson: "+ temp.title);
-        return new PotdData(temp.title, temp.explanation, temp.copyright, temp.date, temp.url, -1, false);
+        boolean isFav = FavouriteDatabase.doesTitleExist(temp.title);
+        return new PotdData(temp.title, temp.explanation, temp.copyright, temp.date, temp.url, -1, isFav);
     }
 
     public PotdData(String title, String description, String author, String date, String imageURL, int imageID, boolean isFavourite) {
