@@ -1,6 +1,7 @@
 package graphical.wireless.espace.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
+import graphical.wireless.espace.ui.components.FavouriteButton;
 import graphical.wireless.espace.ui.data.PotdData;
+import graphical.wireless.espace.ui.data.database.Favourite;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -100,7 +104,7 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            PotdData temp = data.get(pos);
+            final PotdData temp = data.get(pos);
 
             ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
             ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
@@ -110,6 +114,39 @@ public class HomeFragment extends Fragment {
                 Picasso.get().load(temp.getImageURL()).into(imageView);
             else
                 imageView.setImageResource(R.drawable.noimage);
+
+
+            final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.potd_favourite_button);
+
+            List<Favourite> favouriteList = FavouritesFragment.getData();
+            Log.i("TEST", "onBindViewHolder: " + favouriteList);
+            for(int i = 0; i < favouriteList.size(); i++)
+                if(favouriteList.get(i).title.equals(temp.getTitleText()))
+                    temp.setFavourite(true);
+
+            if(temp.isFavourite())
+                favouriteButton.setChecked(true);
+            else
+                favouriteButton.setChecked(false);
+
+            favouriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(temp.isFavourite()){
+                        favouriteButton.setChecked(false);
+                        temp.setFavourite(false);
+                        Favourite favourite = new Favourite(Favourite.DATA_POTD, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
+                        FavouritesFragment.delete(favourite);
+                    }
+                    else {
+                        favouriteButton.setChecked(true);
+                        temp.setFavourite(true);
+                        Favourite favourite = new Favourite(Favourite.DATA_POTD, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
+                        FavouritesFragment.addData(favourite);
+                    }
+                }
+            });
+
         }
 
         // Return the size of your dataset (invoked by the layout manager)

@@ -5,26 +5,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +41,7 @@ public class FavouritesFragment extends Fragment {
     private static FavouritesFragment.FavouritesAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private MainActivity mainActivity;
+    private static MainActivity mainActivity;
 
     private static LocalDatabase localDatabase;
     private static List<Favourite> favouriteList = new ArrayList<>();
@@ -62,7 +57,7 @@ public class FavouritesFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
 
         Context context = mainActivity.getApplicationContext();
-        localDatabase = LocalDatabase.getInstance(context);
+        initDatabase(context);
 
         recyclerView = temp.findViewById(R.id.favourites_recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -75,13 +70,13 @@ public class FavouritesFragment extends Fragment {
 
         getData();
 
-        Button addBtn = temp.findViewById(R.id.addBtn);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addData();
-            }
-        });
+//        Button addBtn = temp.findViewById(R.id.addBtn);
+//        addBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addData();
+//            }
+//        });
 
         Button getBtn = temp.findViewById(R.id.getBtn);
         getBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,16 +90,29 @@ public class FavouritesFragment extends Fragment {
         return temp;
     }
 
-    private void addData() {
+    public static void initDatabase(Context context){
+        localDatabase = LocalDatabase.getInstance(context);
+    }
+
+    public static void addData(Favourite favourite) {
         final Favourite[] favourtiesTemp = new Favourite[1];
-        favourtiesTemp[0] = new Favourite(0, "Test", "This is but a test", "Younes Benketira", "2020-05-10",
-                "https://cdn.cnn.com/cnnnext/dam/assets/170407094334-sw-dragon-boating-00004113-exlarge-169.jpg", -1);
+        favourtiesTemp[0] = favourite;
 
         new FavouriteInsertAsyncTask(mainActivity, Arrays.asList(favourtiesTemp)).execute();
     }
 
-    private void getData() {
+    public static List<Favourite> getData() {
         FavouriteGetAsyncTask favouriteGetAsyncTask = new FavouriteGetAsyncTask(mainActivity);
+        favouriteGetAsyncTask.execute();
+
+        return mAdapter.getData();
+    }
+
+    public static void delete(Favourite favourite) {
+        final Favourite[] favouritesTemp = new Favourite[1];
+        favouritesTemp[0] = favourite;
+
+        FavouriteDeleteAsyncTask favouriteGetAsyncTask = new FavouriteDeleteAsyncTask(mainActivity, Arrays.asList(favouritesTemp));
         favouriteGetAsyncTask.execute();
     }
 
@@ -147,11 +155,8 @@ public class FavouritesFragment extends Fragment {
 
         @Override
         protected List<Favourite> doInBackground(Favourite... favToBeInserted) {
-
-
             FavouriteDao favouriteDao = FavouritesFragment.localDatabase.favouriteDao();
-//            List<Favourite> temp = new ArrayList<>(favouriteList);
-            Log.i("TEST", "doInBackground: " + favouriteList);
+
             favouriteDao.insertAll(favouriteList);
             return favouriteDao.getAll();
         }
@@ -162,13 +167,44 @@ public class FavouritesFragment extends Fragment {
             if (activity == null) {
                 return;
             }
+            mAdapter.updateData(favouriteInserted);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
-            Toast.makeText(activity, favouriteInserted.toString(), Toast.LENGTH_LONG).show();
-//            if (favouriteInserted) {
-//                Toast.makeText(activity, "Favourite Added!", Toast.LENGTH_LONG).show();
-//            } else {
-//                Toast.makeText(activity, "Favourite Not Added!", Toast.LENGTH_LONG).show();
-//            }
+    private static class FavouriteDeleteAsyncTask extends AsyncTask<Favourite, Void, List<Favourite>> {
+
+        //Prevent leak
+        private WeakReference<MainActivity> weakActivity;
+        List<Favourite> favouriteList;
+
+        public FavouriteDeleteAsyncTask(Activity activity, List<Favourite> favourites) {
+            weakActivity = new WeakReference<MainActivity>((MainActivity) activity);
+            favouriteList = favourites;
+        }
+
+        @Override
+        protected List<Favourite> doInBackground(Favourite... favToBeInserted) {
+            FavouriteDao favouriteDao = FavouritesFragment.localDatabase.favouriteDao();
+            List<Favourite> temp = favouriteDao.getAll();
+            for(int i = 0; i < temp.size(); i++){
+                Favourite tempFav = temp.get(i);
+                if(tempFav.title.equals(favouriteList.get(0).title))
+                    favouriteDao.delete(tempFav);
+            }
+
+            return favouriteDao.getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List favouriteDeleted) {
+            Activity activity = weakActivity.get();
+            if (activity == null) {
+                return;
+            }
+
+            mAdapter.updateData(favouriteDeleted);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -208,6 +244,10 @@ public class FavouritesFragment extends Fragment {
         public void updateData(List<Favourite> data){
             mDataset = new ArrayList<>();
             mDataset.addAll(data);
+        }
+
+        public List<Favourite> getData(){
+            return mDataset;
         }
 
         // Create new views (invoked by the layout manager)

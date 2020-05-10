@@ -6,10 +6,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<NewsData> newsDataset = new ArrayList<>();
 
     private RequestQueue requestQueue;
+    private FavouritesFragment favouritesFragment;
 
     private static String URL_TODAYS_POTD = "https://api.nasa.gov/planetary/apod?api_key=m9Ph2hwwzCM7HIU0dDlgJvBNxNPxf3W40hXrTia4";
     private static String URL_PLANETS = "https://thawing-savannah-59760.herokuapp.com/api/v1/planet/getAllPlanets";
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFrgmnt = new NewsFragment();
                     break;
                 case R.id.nav_favourites:
-                    selectedFrgmnt = new FavouritesFragment();
+                    selectedFrgmnt = favouritesFragment;
                     break;
             }
             displayFragment(selectedFrgmnt);
@@ -87,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Create database
         LocalDatabase.getInstance(getApplicationContext());
+        favouritesFragment = new FavouritesFragment();
 
         // Load DataSets
         loadPotdData();
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(listener);
 
         displayFragment(new WelcomeFragment());
-
+        FavouritesFragment.initDatabase(getApplicationContext());
     }
 
     private void loadPlanetData() {
@@ -186,5 +191,4 @@ public class MainActivity extends AppCompatActivity {
     public void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
-
 }
