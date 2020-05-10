@@ -18,6 +18,9 @@ public interface FavouriteDao {
     @Query("SELECT * FROM Favourite WHERE title LIKE :title LIMIT 1")
     Favourite findByTitle(String title);
 
+    @Query("SELECT COUNT(*) FROM Favourite WHERE title LIKE :title")
+    int countFavouritesByTitle(String title);
+
     @Insert
     void insertAll(List<Favourite> fav);
 
