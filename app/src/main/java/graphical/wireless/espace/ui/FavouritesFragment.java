@@ -36,9 +36,6 @@ public class FavouritesFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    protected static LocalDatabase db;
-    protected FavouriteDao favouriteDao;
-
     private String[] myDataset;
 
     public FavouritesFragment() {
@@ -49,8 +46,6 @@ public class FavouritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View temp = inflater.inflate(R.layout.fragment_favourites, container, false);
-
-        createDatabase();
 
         ArrayList<Favourite> favouriteList = new ArrayList<>();
 
@@ -66,17 +61,6 @@ public class FavouritesFragment extends Fragment {
 //        new FavouriteAsyncTask(((MainActivity)getActivity())).execute();
 
         return temp;
-    }
-
-    private void createDatabase() {
-        Context context = ((MainActivity) getActivity()).getApplicationContext();
-        db = Room.databaseBuilder(context,
-                LocalDatabase.class, "favourites").build();
-        favouriteDao = db.getFavouriteDao();
-    }
-
-    private void closeDb() throws IOException {
-        db.close();
     }
 
 //    private static class FavouriteAsyncTask extends AsyncTask<Void, Void, Integer> {
