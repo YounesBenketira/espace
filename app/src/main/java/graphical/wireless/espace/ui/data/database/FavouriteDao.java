@@ -22,6 +22,9 @@ public interface FavouriteDao {
     @Query("SELECT * FROM Favourite WHERE espace_data == :datatype")
     List<Favourite> findByDatatype(int datatype);
 
+    @Query("SELECT * FROM Favourite WHERE espace_data == :datatype AND title LIKE :title LIMIT 1")
+    Favourite findByTitleData(String title, int datatype);
+
     @Query("SELECT COUNT(*) FROM Favourite WHERE title LIKE :title")
     int countFavouritesByTitle(String title);
 

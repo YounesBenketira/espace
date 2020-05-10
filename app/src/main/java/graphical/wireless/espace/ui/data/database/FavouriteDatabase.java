@@ -102,6 +102,22 @@ public class FavouriteDatabase {
         return favouriteDao.countFavouritesByTitle(title);
     }
 
+    public static PotdData getPotdByTitle(String title) {
+        return (PotdData)favouriteDao.findByTitleData(title, Favourite.POTD_DATA).getData();
+    }
+
+    public static PlanetData getPlanetByTitle(String title) {
+        return (PlanetData) favouriteDao.findByTitleData(title, Favourite.PLANET_DATA).getData();
+    }
+
+    public static NewsData getNewsByTitle(String title) {
+        return (NewsData) favouriteDao.findByTitleData(title, Favourite.NEWS_DATA).getData();
+    }
+
+    public static EspaceData getEspaceByTitle(String title) {
+        return favouriteDao.findByTitleData(title, Favourite.ESPACE_DATA).getData();
+    }
+
     public static boolean doesTitleExist(String title) {
         return countFavouritesByTitle(title) > 0;
     }
