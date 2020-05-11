@@ -3,6 +3,7 @@ package graphical.wireless.espace.ui.data.database;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -14,6 +15,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -154,7 +156,7 @@ public abstract class LocalDatabase extends RoomDatabase {
 
         public FavouriteGetAsyncTask(Context activity, List<Favourite> list) {
             weakActivity = new WeakReference<Context>(activity);
-            favList = list;
+            this.favList = list;
         }
 
         @Override
@@ -169,9 +171,11 @@ public abstract class LocalDatabase extends RoomDatabase {
             if (activity == null) {
                 return;
             }
+
             if(adapter != null) {
                 adapter.updateData(favouriteList);
             } else {
+                MainActivity.favourites = (ArrayList<Favourite>) favouriteList;
                 favList = favouriteList;
             }
         }

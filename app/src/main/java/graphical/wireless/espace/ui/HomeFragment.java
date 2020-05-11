@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter
-        mAdapter = new POTDAdapter(((MainActivity)getActivity()).potdDataset);
+        mAdapter = new POTDAdapter(((MainActivity) getActivity()).potdDataset);
         recyclerView.setAdapter(mAdapter);
 
         return temp;
@@ -65,6 +65,7 @@ public class HomeFragment extends Fragment {
         public class MyViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
             public CardView cardView;
+
             public MyViewHolder(CardView v) {
                 super(v);
                 cardView = v;
@@ -107,11 +108,11 @@ public class HomeFragment extends Fragment {
 
             final PotdData temp = data.get(pos);
 
-            ((TextView)vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
-            ((TextView)vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
+            ((TextView) vg.findViewById(R.id.potd_title)).setText(temp.getTitleText());
+            ((TextView) vg.findViewById(R.id.potd_date)).setText(temp.getDateText());
 
             ImageView imageView = vg.findViewById(R.id.potd_image);
-            if(temp.getImageURL().charAt(8) != 'w')
+            if (temp.getImageURL().charAt(8) != 'w')
                 Picasso.get().load(temp.getImageURL()).into(imageView);
             else
                 imageView.setImageResource(R.drawable.noimage);
@@ -119,21 +120,33 @@ public class HomeFragment extends Fragment {
             // Fav button stuff
             final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.potd_favourite_button);
 
-            for(int i = 0; i < MainActivity.favourites.size(); i++)
-                if(MainActivity.favourites.get(i).title.equals(temp.getTitleText()))
-                    temp.setFavourite(true);
+            if(MainActivity.favourites.size() == 0)
+                temp.setFavourite(false);
+            else{
+                String title = temp.getTitleText();
+                for (int i = 0; i < MainActivity.favourites.size(); i++) {
+                    Favourite favourite = MainActivity.favourites.get(i);
+                    if (favourite.title.equals(title)) {
+                        temp.setFavourite(true);
+                        favouriteButton.setChecked(true);
+                        break;
+                    } else {
+                        temp.setFavourite(false);
+                        favouriteButton.setChecked(false);
+                    }
+                }
 
-            favouriteButton.setChecked(temp.isFavourite());
+            }
+
             favouriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(temp.isFavourite()){
+                    if (temp.isFavourite()) {
                         favouriteButton.setChecked(false);
                         temp.setFavourite(false);
                         Favourite favourite = new Favourite(Favourite.DATA_POTD, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
                         LocalDatabase.delete(favourite, null);
-                    }
-                    else {
+                    } else {
                         favouriteButton.setChecked(true);
                         temp.setFavourite(true);
                         Favourite favourite = new Favourite(Favourite.DATA_POTD, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
@@ -141,6 +154,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
             });
+
 
         }
 

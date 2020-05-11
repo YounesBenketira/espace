@@ -233,12 +233,18 @@ public class SearchFragment extends Fragment {
                 }
             });
 
+
+
             // Fav button stuff
             final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.potd_favourite_button);
 
             for(int i = 0; i < MainActivity.favourites.size(); i++)
-                if(MainActivity.favourites.get(i).title.equals(temp.getTitleText()))
+                if(MainActivity.favourites.get(i).title.equals(temp.getTitleText())) {
                     temp.setFavourite(true);
+                    break;
+                }
+                else
+                    temp.setFavourite(false);
 
             favouriteButton.setChecked(temp.isFavourite());
             favouriteButton.setOnClickListener(new View.OnClickListener() {

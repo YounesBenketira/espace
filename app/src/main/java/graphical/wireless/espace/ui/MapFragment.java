@@ -120,8 +120,12 @@ public class MapFragment extends Fragment {
             final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.planet_favourite_button);
 
             for(int i = 0; i < MainActivity.favourites.size(); i++)
-                if(MainActivity.favourites.get(i).title.equals(planet.getTitleText()))
+                if(MainActivity.favourites.get(i).title.equals(planet.getTitleText())) {
                     planet.setFavourite(true);
+                    break;
+                }
+                else
+                    planet.setFavourite(false);
 
             favouriteButton.setChecked(planet.isFavourite());
             favouriteButton.setOnClickListener(new View.OnClickListener() {

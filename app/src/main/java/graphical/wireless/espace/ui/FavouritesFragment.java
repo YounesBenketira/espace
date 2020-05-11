@@ -143,6 +143,8 @@ public class FavouritesFragment extends Fragment {
             holder.date.setText(fav.date);
             if (fav.imageURL != null && !fav.imageURL.isEmpty())
                 Picasso.get().load(fav.imageURL).into(holder.image);
+            else if (fav.espaceDatatype == Favourite.DATA_PLANET)
+                holder.image.setImageResource(fav.imageID);
             else
                 holder.image.setImageResource(R.drawable.noimage);
             holder.button.setChecked(true);
