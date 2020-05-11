@@ -124,13 +124,16 @@ public class NewsFragment extends Fragment {
             // Fav button stuff
             final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.news_favourite_button);
 
-            for(int i = 0; i < MainActivity.favourites.size(); i++)
-                if(MainActivity.favourites.get(i).title.equals(article.getTitleText())) {
-                    article.setFavourite(true);
-                    break;
-                }
-                else
-                    article.setFavourite(false);
+            if(MainActivity.favourites.size() == 0)
+                article.setFavourite(false);
+            else {
+                for (int i = 0; i < MainActivity.favourites.size(); i++)
+                    if (MainActivity.favourites.get(i).title.equals(article.getTitleText())) {
+                        article.setFavourite(true);
+                        break;
+                    } else
+                        article.setFavourite(false);
+            }
 
             favouriteButton.setChecked(article.isFavourite());
             favouriteButton.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package graphical.wireless.espace.ui;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,13 +120,17 @@ public class MapFragment extends Fragment {
             // Fav button stuff
             final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.planet_favourite_button);
 
-            for(int i = 0; i < MainActivity.favourites.size(); i++)
-                if(MainActivity.favourites.get(i).title.equals(planet.getTitleText())) {
-                    planet.setFavourite(true);
-                    break;
-                }
-                else
-                    planet.setFavourite(false);
+
+            if(MainActivity.favourites.size() == 0)
+                planet.setFavourite(false);
+            else {
+                for (int i = 0; i < MainActivity.favourites.size(); i++)
+                    if (MainActivity.favourites.get(i).title.equals(planet.getTitleText())) {
+                        planet.setFavourite(true);
+                        break;
+                    } else
+                        planet.setFavourite(false);
+            }
 
             favouriteButton.setChecked(planet.isFavourite());
             favouriteButton.setOnClickListener(new View.OnClickListener() {
