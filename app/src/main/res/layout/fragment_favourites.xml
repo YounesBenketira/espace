@@ -7,18 +7,6 @@
     android:orientation="vertical"
     tools:context=".ui.FavouritesFragment">
 
-    <Button
-        android:text="Add A Favourite"
-        android:id="@+id/addBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:text="Update Data"
-        android:id="@+id/getBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favourites_recyclerView"
         android:layout_width="match_parent"

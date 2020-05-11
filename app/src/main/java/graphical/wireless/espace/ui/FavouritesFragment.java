@@ -70,23 +70,6 @@ public class FavouritesFragment extends Fragment {
 
         getData();
 
-//        Button addBtn = temp.findViewById(R.id.addBtn);
-//        addBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addData();
-//            }
-//        });
-
-        Button getBtn = temp.findViewById(R.id.getBtn);
-        getBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData();
-            }
-        });
-
-
         return temp;
     }
 

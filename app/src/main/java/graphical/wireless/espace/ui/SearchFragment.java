@@ -1,7 +1,6 @@
 package graphical.wireless.espace.ui;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
@@ -34,7 +33,7 @@ import graphical.wireless.espace.ui.data.PlanetData;
  */
 public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private SearchAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     public SearchFragment() {
@@ -42,7 +41,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final View temp = inflater.inflate(R.layout.fragment_search, container, false);
 //        Log.i(TAG, "onCreateView: ");
@@ -75,31 +74,23 @@ public class SearchFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selected = spinner.getSelectedItem().toString();
 
+                ArrayList<EspaceData> temp = new ArrayList<>();
                 switch (selected) {
                     case "All":
-                        dataSet.clear();
-                        dataSet.addAll(((MainActivity) getActivity()).newsDataset);
-                        dataSet.addAll(((MainActivity) getActivity()).potdDataset);
-                        dataSet.addAll(((MainActivity) getActivity()).planetDataset);
-                        Collections.shuffle(dataSet);
-                        mAdapter.notifyDataSetChanged();
+                        temp = dataSet;
                         break;
                     case "PotD":
-                        dataSet.clear();
-                        dataSet.addAll(((MainActivity) getActivity()).potdDataset);
-                        mAdapter.notifyDataSetChanged();
+                        temp.addAll(((MainActivity) getActivity()).potdDataset);
                         break;
                     case "News":
-                        dataSet.clear();
-                        dataSet.addAll(((MainActivity) getActivity()).newsDataset);
-                        mAdapter.notifyDataSetChanged();
+                        temp.addAll(((MainActivity) getActivity()).newsDataset);
                         break;
                     case "Planets":
-                        dataSet.clear();
-                        dataSet.addAll(((MainActivity) getActivity()).planetDataset);
-                        mAdapter.notifyDataSetChanged();
+                        temp.addAll(((MainActivity) getActivity()).planetDataset);
                         break;
                 }
+                mAdapter.updateData(temp);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -113,20 +104,45 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.i("TEST", "Size: " + dataSet.size());
-                for (int i = 0; i < dataSet.size(); i++) {
-                    Log.i("TEST", "Title: " + dataSet.get(i).getTitleText());
-                    Log.i("TEST", "Index: " + i);
-                    if (!dataSet.get(i).getTitleText().contains(query)) {
-                        dataSet.remove(i);
-                    }
-                }
-                mAdapter.notifyDataSetChanged();
-                return false;
+                return  false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(newText.length() == 0){
+                    ArrayList<EspaceData> temp = new ArrayList<>();
+                    switch(spinner.getSelectedItem().toString()){
+                        case "All":
+                            mAdapter.updateData(dataSet);
+                            break;
+                        case "PotD":
+                            temp.addAll(((MainActivity) getActivity()).potdDataset);
+                            mAdapter.updateData(temp);
+                            break;
+                        case "News":
+                            temp.addAll(((MainActivity) getActivity()).newsDataset);
+                            mAdapter.updateData(temp);
+                            break;
+                        case "Planets":
+                            temp.addAll(((MainActivity) getActivity()).planetDataset);
+                            mAdapter.updateData(temp);
+                            break;
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }else {
+                    ArrayList<EspaceData> copy = new ArrayList<>();
+                    copy.addAll(mAdapter.getData());
+
+                    for (int i = copy.size()-1; i >= 0; i--) {
+                        EspaceData temp = copy.get(i);
+
+                        if (!temp.getTitleText().contains(newText)) {
+                            copy.remove(i);
+                        }
+                    }
+                    mAdapter.updateData(copy);
+                    mAdapter.notifyDataSetChanged();
+                }
 
                 return false;
             }
@@ -154,6 +170,16 @@ public class SearchFragment extends Fragment {
         // Provide a suitable constructor (depends on the kind of dataset)
         public SearchAdapter(ArrayList<EspaceData> myDataset) {
             mDataset = myDataset;
+        }
+
+
+        public void updateData(ArrayList<EspaceData> data){
+            mDataset = new ArrayList<>();
+            mDataset.addAll(data);
+        }
+
+        public ArrayList<EspaceData> getData(){
+            return mDataset;
         }
 
         // Create new views (invoked by the layout manager)
