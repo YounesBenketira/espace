@@ -24,6 +24,7 @@ import graphical.wireless.espace.R;
 import graphical.wireless.espace.ui.components.FavouriteButton;
 import graphical.wireless.espace.ui.data.PotdData;
 import graphical.wireless.espace.ui.data.database.Favourite;
+import graphical.wireless.espace.ui.data.database.LocalDatabase;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -31,7 +32,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     public HomeFragment() {
-
+        LocalDatabase.getData(MainActivity.favourites);
     }
 
     @Override
@@ -115,20 +116,14 @@ public class HomeFragment extends Fragment {
             else
                 imageView.setImageResource(R.drawable.noimage);
 
-
+            // Fav button stuff
             final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.potd_favourite_button);
 
-            List<Favourite> favouriteList = FavouritesFragment.getData();
-            Log.i("TEST", "onBindViewHolder: " + favouriteList);
-            for(int i = 0; i < favouriteList.size(); i++)
-                if(favouriteList.get(i).title.equals(temp.getTitleText()))
+            for(int i = 0; i < MainActivity.favourites.size(); i++)
+                if(MainActivity.favourites.get(i).title.equals(temp.getTitleText()))
                     temp.setFavourite(true);
 
-            if(temp.isFavourite())
-                favouriteButton.setChecked(true);
-            else
-                favouriteButton.setChecked(false);
-
+            favouriteButton.setChecked(temp.isFavourite());
             favouriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -136,13 +131,13 @@ public class HomeFragment extends Fragment {
                         favouriteButton.setChecked(false);
                         temp.setFavourite(false);
                         Favourite favourite = new Favourite(Favourite.DATA_POTD, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
-                        FavouritesFragment.delete(favourite);
+                        LocalDatabase.delete(favourite, null);
                     }
                     else {
                         favouriteButton.setChecked(true);
                         temp.setFavourite(true);
                         Favourite favourite = new Favourite(Favourite.DATA_POTD, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
-                        FavouritesFragment.addData(favourite);
+                        LocalDatabase.addData(favourite, null);
                     }
                 }
             });

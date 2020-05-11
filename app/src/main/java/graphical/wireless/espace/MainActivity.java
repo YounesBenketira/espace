@@ -44,9 +44,12 @@ import graphical.wireless.espace.ui.data.EspaceData;
 import graphical.wireless.espace.ui.data.NewsData;
 import graphical.wireless.espace.ui.data.PlanetData;
 import graphical.wireless.espace.ui.data.PotdData;
+import graphical.wireless.espace.ui.data.database.Favourite;
 import graphical.wireless.espace.ui.data.database.LocalDatabase;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static ArrayList<Favourite> favourites = new ArrayList<>();
 
     public ArrayList<PotdData> potdDataset = new ArrayList<>();
     public ArrayList<PlanetData> planetDataset = new ArrayList<>();
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Create database
         LocalDatabase.getInstance(getApplicationContext());
+        LocalDatabase.getData(favourites);
         favouritesFragment = new FavouritesFragment();
 
         // Load DataSets
@@ -105,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(listener);
 
         displayFragment(new WelcomeFragment());
-        FavouritesFragment.initDatabase(getApplicationContext());
     }
 
     private void loadPlanetData() {

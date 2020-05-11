@@ -25,8 +25,13 @@ import java.util.Collections;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
+import graphical.wireless.espace.ui.components.FavouriteButton;
 import graphical.wireless.espace.ui.data.EspaceData;
+import graphical.wireless.espace.ui.data.NewsData;
 import graphical.wireless.espace.ui.data.PlanetData;
+import graphical.wireless.espace.ui.data.PotdData;
+import graphical.wireless.espace.ui.data.database.Favourite;
+import graphical.wireless.espace.ui.data.database.LocalDatabase;
 
 
 /**
@@ -38,7 +43,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     public SearchFragment() {
-
+        LocalDatabase.getData(MainActivity.favourites);
     }
 
     @Override
@@ -199,6 +204,40 @@ public class SearchFragment extends Fragment {
                     DetailsFragment detailsFragment = new DetailsFragment(mDataset.get(pos));
                     Log.i("TEST", "onBindViewHolder: " + temp.getTitleText());
                     ((MainActivity) getActivity()).displayFragment(detailsFragment);
+                }
+            });
+
+            // Fav button stuff
+            final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.potd_favourite_button);
+
+            for(int i = 0; i < MainActivity.favourites.size(); i++)
+                if(MainActivity.favourites.get(i).title.equals(temp.getTitleText()))
+                    temp.setFavourite(true);
+
+            favouriteButton.setChecked(temp.isFavourite());
+            favouriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int instanceType = 3;
+                    if(temp instanceof PotdData) {
+                        instanceType = Favourite.DATA_POTD;
+                    } else if(temp instanceof PlanetData) {
+                        instanceType = Favourite.DATA_PLANET;
+                    } else if(temp instanceof NewsData) {
+                        instanceType = Favourite.DATA_NEWS;
+                    }
+                    if(temp.isFavourite()){
+                        favouriteButton.setChecked(false);
+                        temp.setFavourite(false);
+                        Favourite favourite = new Favourite(instanceType, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
+                        LocalDatabase.delete(favourite, null);
+                    }
+                    else {
+                        favouriteButton.setChecked(true);
+                        temp.setFavourite(true);
+                        Favourite favourite = new Favourite(instanceType, temp.getTitleText(), temp.getDescriptionText(), temp.getAuthorText(), temp.getDateText(), temp.getImageURL(), temp.getImageID());
+                        LocalDatabase.addData(favourite, null);
+                    }
                 }
             });
         }

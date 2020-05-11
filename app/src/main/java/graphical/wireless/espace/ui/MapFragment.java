@@ -17,7 +17,10 @@ import java.util.ArrayList;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
+import graphical.wireless.espace.ui.components.FavouriteButton;
 import graphical.wireless.espace.ui.data.PlanetData;
+import graphical.wireless.espace.ui.data.database.Favourite;
+import graphical.wireless.espace.ui.data.database.LocalDatabase;
 
 
 /**
@@ -30,7 +33,7 @@ public class MapFragment extends Fragment {
 
 
     public MapFragment() {
-
+        LocalDatabase.getData(MainActivity.favourites);
     }
 
     @Override
@@ -106,12 +109,38 @@ public class MapFragment extends Fragment {
                 }
             });
 
-            PlanetData planet = data.get(pos);
+            final PlanetData planet = data.get(pos);
 
             ((TextView)vg.findViewById(R.id.planet_name)).setText(planet.getTitleText());
 
             ImageView imageView = vg.findViewById(R.id.planet_image);
             imageView.setImageResource(planet.getImageID());
+
+            // Fav button stuff
+            final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.planet_favourite_button);
+
+            for(int i = 0; i < MainActivity.favourites.size(); i++)
+                if(MainActivity.favourites.get(i).title.equals(planet.getTitleText()))
+                    planet.setFavourite(true);
+
+            favouriteButton.setChecked(planet.isFavourite());
+            favouriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(planet.isFavourite()){
+                        favouriteButton.setChecked(false);
+                        planet.setFavourite(false);
+                        Favourite favourite = new Favourite(Favourite.DATA_PLANET, planet.getTitleText(), planet.getDescriptionText(), planet.getAuthorText(), planet.getDateText(), planet.getImageURL(), planet.getImageID());
+                        LocalDatabase.delete(favourite, null);
+                    }
+                    else {
+                        favouriteButton.setChecked(true);
+                        planet.setFavourite(true);
+                        Favourite favourite = new Favourite(Favourite.DATA_PLANET, planet.getTitleText(), planet.getDescriptionText(), planet.getAuthorText(), planet.getDateText(), planet.getImageURL(), planet.getImageID());
+                        LocalDatabase.addData(favourite, null);
+                    }
+                }
+            });
         }
 
         // Return the size of your dataset (invoked by the layout manager)

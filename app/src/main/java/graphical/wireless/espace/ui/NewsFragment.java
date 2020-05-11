@@ -20,7 +20,10 @@ import java.util.ArrayList;
 
 import graphical.wireless.espace.MainActivity;
 import graphical.wireless.espace.R;
+import graphical.wireless.espace.ui.components.FavouriteButton;
 import graphical.wireless.espace.ui.data.NewsData;
+import graphical.wireless.espace.ui.data.database.Favourite;
+import graphical.wireless.espace.ui.data.database.LocalDatabase;
 
 
 /**
@@ -32,6 +35,7 @@ public class NewsFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     public NewsFragment() {
+        LocalDatabase.getData(MainActivity.favourites);
     }
 
     @Override
@@ -105,13 +109,11 @@ public class NewsFragment extends Fragment {
                 }
             });
 
-            NewsData article = data.get(pos);
+            final NewsData article = data.get(pos);
 
             ((TextView) vg.findViewById(R.id.news_title)).setText(article.getTitleText());
 
             ImageView imageView = vg.findViewById(R.id.news_image);
-
-
 
             if (article.getImageURL() == null || article.getImageURL().length() == 0 || article.getImageURL().charAt(4) != 's')
                 imageView.setImageResource(R.drawable.noimage);
@@ -119,7 +121,31 @@ public class NewsFragment extends Fragment {
                     Picasso.get().load(article.getImageURL()).into(imageView);
             }
 
+            // Fav button stuff
+            final FavouriteButton favouriteButton = (FavouriteButton) vg.findViewById(R.id.news_favourite_button);
 
+            for(int i = 0; i < MainActivity.favourites.size(); i++)
+                if(MainActivity.favourites.get(i).title.equals(article.getTitleText()))
+                    article.setFavourite(true);
+
+            favouriteButton.setChecked(article.isFavourite());
+            favouriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(article.isFavourite()){
+                        favouriteButton.setChecked(false);
+                        article.setFavourite(false);
+                        Favourite favourite = new Favourite(Favourite.DATA_NEWS, article.getTitleText(), article.getDescriptionText(), article.getAuthorText(), article.getDateText(), article.getImageURL(), article.getImageID());
+                        LocalDatabase.delete(favourite, null);
+                    }
+                    else {
+                        favouriteButton.setChecked(true);
+                        article.setFavourite(true);
+                        Favourite favourite = new Favourite(Favourite.DATA_NEWS, article.getTitleText(), article.getDescriptionText(), article.getAuthorText(), article.getDateText(), article.getImageURL(), article.getImageID());
+                        LocalDatabase.addData(favourite, null);
+                    }
+                }
+            });
         }
 
         // Return the size of your dataset (invoked by the layout manager)
